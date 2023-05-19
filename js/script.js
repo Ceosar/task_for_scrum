@@ -11,7 +11,16 @@ function confirmChoosing(){
     else{
         document.getElementsByClassName('tryAgain')[0].style.display='block';
         showComments(voteOfGreen, voteOfRed, voteOfBlue);
+        saveSelectOption();
     }
+
+    // let users=[
+    //     {name:green, score: voteOfGreen},
+    //     {name:red, score: voteOfRed},
+    //     {name:blue, score: voteOfBlue}
+    // ];
+
+    // localStorage.setItem(users, JSON.stringify(users));
 }
 
 function showComments(paramGreen, paramRed, paramBlue){
@@ -34,4 +43,28 @@ function showComments(paramGreen, paramRed, paramBlue){
 
 function tryAgainFun(){
     location.reload();
+    loadOptions();
+}
+
+function loadOptions() {
+    let savedOptions = localStorage.getItem('selectedOptionGreen');
+    let select = document.getElementById('voteGreen');
+
+}
+
+function saveSelectOption(){
+    let selectGreen = document.getElementById('voteGreen');
+    let selectedOptionGreen = selectGreen.value;
+    localStorage.setItem('selectedOptionGreen', selectedOptionGreen);
+    console.log(selectedOptionGreen);
+
+    let selectRed = document.getElementById('voteRed');
+    let selectedOptionRed = selectRed.value;
+    localStorage.setItem('selectedOptionRed', selectedOptionRed);
+    console.log(selectedOptionRed);
+
+    let selectBlue = document.getElementById('voteBlue');
+    let selectedOptionBlue = selectBlue.value;
+    localStorage.setItem('selectedOptionBlue', selectedOptionBlue);
+    console.log(selectedOptionBlue);
 }
