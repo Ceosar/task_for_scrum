@@ -43,14 +43,35 @@ function showComments(paramGreen, paramRed, paramBlue){
 
 function tryAgainFun(){
     location.reload();
-    loadOptions();
 }
 
 function loadOptions() {
-    let savedOptions = localStorage.getItem('selectedOptionGreen');
-    let select = document.getElementById('voteGreen');
+    console.log("onload");
+    let savedOptionsGreen = localStorage.getItem('selectedOptionGreen');
+    let selectGreen = document.getElementById('voteGreen');
+    let optionGreen = Array.from(selectGreen.options).find((opt) => opt.value === savedOptionsGreen);
+    if (optionGreen) {
+        optionGreen.selected = true;
+    }
+
+    let savedOptionsRed = localStorage.getItem('selectedOptionRed');
+    let selectRed = document.getElementById('voteRed');
+    let optionRed = Array.from(selectRed.options).find((opt) => opt.value === savedOptionsRed);
+    if (optionRed) {
+        optionRed.selected = true;
+    }
+
+    let savedOptionsBlue = localStorage.getItem('selectedOptionBlue');
+    let selectBlue = document.getElementById('voteBlue');
+    let optionBlue = Array.from(selectBlue.options).find((opt) => opt.value === savedOptionsBlue);
+    if (optionBlue) {
+        optionBlue.selected = true;
+    }
+
 
 }
+
+window.onload = loadOptions;
 
 function saveSelectOption(){
     let selectGreen = document.getElementById('voteGreen');
