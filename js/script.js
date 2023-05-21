@@ -1,33 +1,57 @@
+/*
+### confirmChoosing()
+Функция вызывается при нажатии на кнопку "Press to confirm".
+Блок с выбором скрывается. Переменные, заполненные пользователем в <select>, сравниваются.
+- При их равенстве появляется блок с итоговым результатом и вызывается функция saveSelectOption().
+- Иначе, появляется блок с промежуточными результатами, и вызываются функции saveSelectOption() и showComments(arg1, arg2, arg3).
+ */
+
 function confirmChoosing(){
     let voteOfGreen = document.getElementById('voteGreen').value;
     let voteOfRed = document.getElementById('voteRed').value;
     let voteOfBlue = document.getElementById('voteBlue').value;
 
+    document.getElementsByClassName('start-to-vote')[0].style.display='none';
     if(voteOfBlue === voteOfGreen && voteOfGreen === voteOfRed && voteOfRed === voteOfGreen){
-        document.getElementsByClassName('start-to-vote')[0].style.display='none';
         document.getElementById('enterRes').textContent = (voteOfBlue);
         document.getElementsByClassName('lastEnter')[0].style.display='block';
+        saveSelectOption();
     }
     else{
         document.getElementsByClassName('tryAgain')[0].style.display='block';
         showComments(voteOfGreen, voteOfRed, voteOfBlue);
         saveSelectOption();
     }
-
-    // let users=[
-    //     {name:green, score: voteOfGreen},
-    //     {name:red, score: voteOfRed},
-    //     {name:blue, score: voteOfBlue}
-    // ];
-
-    // localStorage.setItem(users, JSON.stringify(users));
 }
 
-function showComments(paramGreen, paramRed, paramBlue){
-    document.getElementsByClassName('lastEnter')[0].style.display='none';
-    document.getElementsByClassName('btn-conf-choose')[0].style.display='none';
-    document.getElementsByClassName('start-to-vote')[0].style.display='none';
+/*
+### saveSelectOption()
+Функция вызывается в confirmChoosing().
+Задача saveSelectOption() взять из каждого <select> значения и сохранить их в localStorage.
+ */
 
+function saveSelectOption(){
+    let selectGreen = document.getElementById('voteGreen');
+    let selectedOptionGreen = selectGreen.value;
+    localStorage.setItem('selectedOptionGreen', selectedOptionGreen);
+
+    let selectRed = document.getElementById('voteRed');
+    let selectedOptionRed = selectRed.value;
+    localStorage.setItem('selectedOptionRed', selectedOptionRed);
+
+    let selectBlue = document.getElementById('voteBlue');
+    let selectedOptionBlue = selectBlue.value;
+    localStorage.setItem('selectedOptionBlue', selectedOptionBlue);
+}
+
+/**
+### showComments(arg1, arg2, arg3)
+Функция вызывается в confirmChoosing().
+Задача showComments(arg1, arg2, arg3) получить оценку и комментарии пользователя.
+Затем вывести их на экран в блок с промежуточными результатами.
+ */
+
+function showComments(paramGreen, paramRed, paramBlue){
     let textCommentGreen = document.getElementsByClassName('person-comment-green')[0].value;
     let textCommentRed = document.getElementsByClassName('person-comment-red')[0].value;
     let textCommentBlue = document.getElementsByClassName('person-comment-blue')[0].value;
@@ -41,12 +65,16 @@ function showComments(paramGreen, paramRed, paramBlue){
     document.getElementById('blue-text').textContent = (textCommentBlue);
 }
 
-function tryAgainFun(){
-    location.reload();
-}
+/**
+### loadOptions()
+Функция вызывается при загрузке страницы.
+loadOptions() берет переменные из localStorage и присваивает каждому <select> по отдельности.
+Array.from() используется для преобразования коллекции selectGreen.options в метод find(),
+который возвращает первый элемент, устанавливающий условие, указанное в коллбэк-функциях.
+Внутри коллбэк-функции сравнивается значение каждого <option> с уже существующими переменными из localStorage.
+ */
 
 function loadOptions() {
-    console.log("onload");
     let savedOptionsGreen = localStorage.getItem('selectedOptionGreen');
     let selectGreen = document.getElementById('voteGreen');
     let optionGreen = Array.from(selectGreen.options).find((opt) => opt.value === savedOptionsGreen);
@@ -67,25 +95,44 @@ function loadOptions() {
     if (optionBlue) {
         optionBlue.selected = true;
     }
+}
 
+/*
+### tryAgainFun()
+Функция вызывается при нажатии на кнопки "Next" и "Try Again" в блоках с итоговым и промежуточным результатами соответственно.
+ */
 
+function tryAgainFun(){
+    location.reload();
 }
 
 window.onload = loadOptions;
 
-function saveSelectOption(){
-    let selectGreen = document.getElementById('voteGreen');
-    let selectedOptionGreen = selectGreen.value;
-    localStorage.setItem('selectedOptionGreen', selectedOptionGreen);
-    console.log(selectedOptionGreen);
+/**
+# task_for_scrum
 
-    let selectRed = document.getElementById('voteRed');
-    let selectedOptionRed = selectRed.value;
-    localStorage.setItem('selectedOptionRed', selectedOptionRed);
-    console.log(selectedOptionRed);
+### confirmChoosing()
+Функция вызывается при нажатии на кнопку "Press to confirm".
+Блок с выбором скрывается. Переменные, заполненные пользователем в <select>, сравниваются.
+- При их равенстве появляется блок с итоговым результатом и вызывается функция saveSelectOption().
+- Иначе, появляется блок с промежуточными результатами, и вызываются функции saveSelectOption() и showComments(arg1, arg2, arg3).
 
-    let selectBlue = document.getElementById('voteBlue');
-    let selectedOptionBlue = selectBlue.value;
-    localStorage.setItem('selectedOptionBlue', selectedOptionBlue);
-    console.log(selectedOptionBlue);
-}
+### saveSelectOption()
+Функция вызывается в confirmChoosing().
+Задача saveSelectOption() взять из каждого <select> значения и сохранить их в localStorage.
+
+### showComments(arg1, arg2, arg3)
+Функция вызывается в confirmChoosing().
+Задача showComments(arg1, arg2, arg3) получить оценку и комментарии пользователя.
+Затем вывести их на экран в блок с промежуточными результатами.
+
+### loadOptions()
+Функция вызывается при загрузке страницы.
+loadOptions() берет переменные из localStorage и присваивает каждому <select> по отдельности.
+Array.from() используется для преобразования коллекции selectGreen.options в метод find(),
+который возвращает первый элемент, устанавливающий условие, указанное в коллбэк-функциях.
+Внутри коллбэк-функции сравнивается значение каждого <option> с уже существующими переменными из localStorage.
+
+### tryAgainFun()
+Функция вызывается при нажатии на кнопки "Next" и "Try Again" в блоках с итоговым и промежуточным результатами соответственно.
+*/
