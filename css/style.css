@@ -10,6 +10,10 @@ body {
   font-family: "Roboto", sans-serif;
 }
 
+.container {
+  padding: 0 50px;
+}
+
 .header {
   width: 100vw;
   height: 100px;
