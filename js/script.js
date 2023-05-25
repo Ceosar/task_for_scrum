@@ -1,8 +1,3 @@
-// var table = document.getElementById('table-task');
-// var tbody = table.getElementsByTagName('tbody')[0];
-// var nameOfTasks = ["Task1", "Task2", "Task3", "Task4", "Task5",]
-// var currentIndex = 0;
-
 function tryAgainFun(){
     location.reload();
 }
