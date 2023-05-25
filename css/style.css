@@ -43,8 +43,24 @@ body {
   margin: 0 auto;
   font-size: 25px;
 }
+.main .container .list-of-task {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.main .container .list-of-task .name-of-task {
+  border: 1px solid grey;
+  border-radius: 10px;
+}
+.main .container .list-of-task #change-score-of-task {
+  padding: 10px;
+  color: white;
+  background-color: rgb(117, 117, 254);
+  border-radius: 10px;
+}
 .main .container .start-to-vote {
   margin-bottom: 40px;
+  display: none;
 }
 .main .container .start-to-vote .person {
   margin: 20px 0;
@@ -123,4 +139,26 @@ body {
 
 .red {
   background-color: red;
+}
+
+table {
+  border: 1px solid black;
+  background-color: black;
+}
+
+tr {
+  border: 1px solid black;
+  border-color: white;
+}
+
+th {
+  padding: 20px;
+  border: 1px solid black;
+  background-color: white;
+}
+
+td {
+  padding: 20px;
+  border: 1px solid black;
+  background-color: white;
 }/*# sourceMappingURL=style.css.map */

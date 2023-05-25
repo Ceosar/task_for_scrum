@@ -18,7 +18,48 @@
     </header>
     <main class="main">
         <div class="container">
+            <div class="list-of-task">
+                <table id="table-task">
+                    <thead>
+                        <tr>
+                            <th>Name of task</th>
+                            <th>Score of Task</th>
+                            <th>Function</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td id="Task1">Task1</td>
+                            <!-- <td><input class="name-of-task" type="text"></td> -->
+                            <td><div class="score-of-task" id="resultScore1"></div></td>
+                            <td><button onclick="changeFun(Task1)" id="change-score-of-task">change</button></td>
+                        </tr>
+                        <tr>
+                            <td id="Task2">Task2</td>
+                            <!-- <td><input class="name-of-task" type="text"></td> -->
+                            <td><div class="score-of-task" id="resultScore2"></div></td>
+                            <td><button onclick="changeFun(Task2)" id="change-score-of-task">change</button></td>
+                        </tr>
+                        <tr>
+                            <td id="Task3">Task3</td>
+                            <!-- <td><input class="name-of-task" type="text"></td> -->
+                            <td><div class="score-of-task" id="resultScore3"></div></td>
+                            <td><button onclick="changeFun(Task3)" id="change-score-of-task">change</button></td>
+                        </tr>
+                        <tr>
+                            <td id="Task4">Task4</td>
+                            <!-- <td><input class="name-of-task" type="text"></td> -->
+                            <td><div class="score-of-task" id="resultScore4"></div></td>
+                            <td><button onclick="changeFun(Task4)" id="change-score-of-task">change</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <!-- <button onclick="create()">Click!</button> -->
+                <!-- <button onclick="addTask()">Add task</button> -->
+            </div>
             <div class="start-to-vote">
+                <div id="text-of-answer"></div>
+                <button class="add-user" onclick="addUser()">Add user</button>
                 <div class="person">
                     <div class="person-color green"></div>
                     <span class="person-name">Person Green votes for: </span>
@@ -67,7 +108,7 @@
                     </select>
                     <input type="text" class="person-comment-blue" placeholder="Enter comment">
                 </div>
-                <button onclick="confirmChoosing()" class="btn-conf-choose">Press to confirm</button>
+                <button id="btnConfirm" class="btn-conf-choose">Press to confirm</button>
             </div>
             <div class="tryAgain">
                 <div class="person-comment">
@@ -88,7 +129,7 @@
                     <span id="blue-score"></span>
                     <span class="blue-text-comment" id="blue-text"></span>
                 </div>
-                <button onclick="tryAgainFun()" class="btn-try-again">Try Again</button>
+                <button id="btnTryAgain" class="btn-try-again">Try Again</button>
             </div>
             <div class="lastEnter">
                 <span class="text-of-enter">Final assessment:</span>

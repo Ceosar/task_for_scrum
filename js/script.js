@@ -1,138 +1,136 @@
-/*
-### confirmChoosing()
-Функция вызывается при нажатии на кнопку "Press to confirm".
-Блок с выбором скрывается. Переменные, заполненные пользователем в <select>, сравниваются.
-- При их равенстве появляется блок с итоговым результатом и вызывается функция saveSelectOption().
-- Иначе, появляется блок с промежуточными результатами, и вызываются функции saveSelectOption() и showComments(arg1, arg2, arg3).
- */
-
-function confirmChoosing(){
-    let voteOfGreen = document.getElementById('voteGreen').value;
-    let voteOfRed = document.getElementById('voteRed').value;
-    let voteOfBlue = document.getElementById('voteBlue').value;
-
-    document.getElementsByClassName('start-to-vote')[0].style.display='none';
-    if(voteOfBlue === voteOfGreen && voteOfGreen === voteOfRed && voteOfRed === voteOfGreen){
-        document.getElementById('enterRes').textContent = (voteOfBlue);
-        document.getElementsByClassName('lastEnter')[0].style.display='block';
-        saveSelectOption();
-    }
-    else{
-        document.getElementsByClassName('tryAgain')[0].style.display='block';
-        showComments(voteOfGreen, voteOfRed, voteOfBlue);
-        saveSelectOption();
-    }
-}
-
-/*
-### saveSelectOption()
-Функция вызывается в confirmChoosing().
-Задача saveSelectOption() взять из каждого <select> значения и сохранить их в localStorage.
- */
-
-function saveSelectOption(){
-    let selectGreen = document.getElementById('voteGreen');
-    let selectedOptionGreen = selectGreen.value;
-    localStorage.setItem('selectedOptionGreen', selectedOptionGreen);
-
-    let selectRed = document.getElementById('voteRed');
-    let selectedOptionRed = selectRed.value;
-    localStorage.setItem('selectedOptionRed', selectedOptionRed);
-
-    let selectBlue = document.getElementById('voteBlue');
-    let selectedOptionBlue = selectBlue.value;
-    localStorage.setItem('selectedOptionBlue', selectedOptionBlue);
-}
-
-/**
-### showComments(arg1, arg2, arg3)
-Функция вызывается в confirmChoosing().
-Задача showComments(arg1, arg2, arg3) получить оценку и комментарии пользователя.
-Затем вывести их на экран в блок с промежуточными результатами.
- */
-
-function showComments(paramGreen, paramRed, paramBlue){
-    let textCommentGreen = document.getElementsByClassName('person-comment-green')[0].value;
-    let textCommentRed = document.getElementsByClassName('person-comment-red')[0].value;
-    let textCommentBlue = document.getElementsByClassName('person-comment-blue')[0].value;
-
-    document.getElementById('green-score').textContent = (paramGreen);
-    document.getElementById('red-score').textContent = (paramRed);
-    document.getElementById('blue-score').textContent = (paramBlue);
-
-    document.getElementById('green-text').textContent = (textCommentGreen);
-    document.getElementById('red-text').textContent = (textCommentRed);
-    document.getElementById('blue-text').textContent = (textCommentBlue);
-}
-
-/**
-### loadOptions()
-Функция вызывается при загрузке страницы.
-loadOptions() берет переменные из localStorage и присваивает каждому <select> по отдельности.
-Array.from() используется для преобразования коллекции selectGreen.options в метод find(),
-который возвращает первый элемент, устанавливающий условие, указанное в коллбэк-функциях.
-Внутри коллбэк-функции сравнивается значение каждого <option> с уже существующими переменными из localStorage.
- */
-
-function loadOptions() {
-    let savedOptionsGreen = localStorage.getItem('selectedOptionGreen');
-    let selectGreen = document.getElementById('voteGreen');
-    let optionGreen = Array.from(selectGreen.options).find((opt) => opt.value === savedOptionsGreen);
-    if (optionGreen) {
-        optionGreen.selected = true;
-    }
-
-    let savedOptionsRed = localStorage.getItem('selectedOptionRed');
-    let selectRed = document.getElementById('voteRed');
-    let optionRed = Array.from(selectRed.options).find((opt) => opt.value === savedOptionsRed);
-    if (optionRed) {
-        optionRed.selected = true;
-    }
-
-    let savedOptionsBlue = localStorage.getItem('selectedOptionBlue');
-    let selectBlue = document.getElementById('voteBlue');
-    let optionBlue = Array.from(selectBlue.options).find((opt) => opt.value === savedOptionsBlue);
-    if (optionBlue) {
-        optionBlue.selected = true;
-    }
-}
-
-/*
-### tryAgainFun()
-Функция вызывается при нажатии на кнопки "Next" и "Try Again" в блоках с итоговым и промежуточным результатами соответственно.
- */
+var table = document.getElementById('table-task');
+var tbody = table.getElementsByTagName('tbody')[0];
+var nameOfTasks = ["Task1", "Task2", "Task3", "Task4", "Task5",]
+var currentIndex = 0;
 
 function tryAgainFun(){
     location.reload();
 }
 
-window.onload = loadOptions;
+function addTask(){
+    if(currentIndex < nameOfTasks.length){
+        var newRow = document.createElement('tr');
+        var newName = document.createElement('td');
+        var newScore = document.createElement('td');
+        var newFunction = document.createElement('td');
 
-/**
-# task_for_scrum
+        newName.textContent = nameOfTasks[currentIndex];
+        newScore.textContent = '5';
 
-### confirmChoosing()
-Функция вызывается при нажатии на кнопку "Press to confirm".
-Блок с выбором скрывается. Переменные, заполненные пользователем в <select>, сравниваются.
-- При их равенстве появляется блок с итоговым результатом и вызывается функция saveSelectOption().
-- Иначе, появляется блок с промежуточными результатами, и вызываются функции saveSelectOption() и showComments(arg1, arg2, arg3).
+        newRow.appendChild(newName);
+        newRow.appendChild(newScore);
+        newRow.appendChild(newFunction);
 
-### saveSelectOption()
-Функция вызывается в confirmChoosing().
-Задача saveSelectOption() взять из каждого <select> значения и сохранить их в localStorage.
+        tbody.appendChild(newRow);
 
-### showComments(arg1, arg2, arg3)
-Функция вызывается в confirmChoosing().
-Задача showComments(arg1, arg2, arg3) получить оценку и комментарии пользователя.
-Затем вывести их на экран в блок с промежуточными результатами.
+        currentIndex++;
+    }
+}
 
-### loadOptions()
-Функция вызывается при загрузке страницы.
-loadOptions() берет переменные из localStorage и присваивает каждому <select> по отдельности.
-Array.from() используется для преобразования коллекции selectGreen.options в метод find(),
-который возвращает первый элемент, устанавливающий условие, указанное в коллбэк-функциях.
-Внутри коллбэк-функции сравнивается значение каждого <option> с уже существующими переменными из localStorage.
+function resultScores() {
+    let scoreResult1 = JSON.parse(localStorage.getItem('Task1'));
+    let scoreResult2 = JSON.parse(localStorage.getItem('Task2'));
+    let scoreResult3 = JSON.parse(localStorage.getItem('Task3'));
+    let scoreResult4 = JSON.parse(localStorage.getItem('Task4'));
 
-### tryAgainFun()
-Функция вызывается при нажатии на кнопки "Next" и "Try Again" в блоках с итоговым и промежуточным результатами соответственно.
-*/
+    document.getElementById("resultScore1").textContent = (scoreResult1.green);
+    document.getElementById("resultScore2").textContent = (scoreResult2.green);
+    document.getElementById("resultScore3").textContent = (scoreResult3.green);
+    document.getElementById("resultScore4").textContent = (scoreResult4.green);
+}
+
+resultScores();
+
+let btnConfirm = document.getElementById("btnConfirm");
+
+function changeFun(arg)
+{
+    document.getElementsByClassName("start-to-vote")[0].style.display="block";
+    document.getElementsByClassName("list-of-task")[0].style.display="none";
+
+    var changeId = document.getElementById("text-of-answer").textContent = arg.id;
+
+    let savedOptions = JSON.parse(localStorage.getItem(changeId));
+    let selectGreen = document.getElementById('voteGreen');
+    selectGreen.addEventListener('change', function(){
+        saveSelectOption();
+    });
+    let optionGreen = Array.from(selectGreen.options).find((opt) => opt.value == savedOptions.green);
+    if (optionGreen) {
+        optionGreen.selected = true;
+    }
+
+    let selectRed = document.getElementById('voteRed');
+    selectRed.addEventListener('change', function(){
+        saveSelectOption();
+    });
+    let optionRed = Array.from(selectRed.options).find((opt) => opt.value == savedOptions.red);
+    if (optionRed) {
+        optionRed.selected = true;
+    }
+
+    let selectBlue = document.getElementById('voteBlue');
+    selectBlue.addEventListener('change', function(){
+        saveSelectOption();
+    });
+    let optionBlue = Array.from(selectBlue.options).find((opt) => opt.value == savedOptions.blue);
+    if (optionBlue) {
+        optionBlue.selected = true;
+    }
+
+    btnConfirm.addEventListener("click", saveSelectOption);
+    function saveSelectOption(){
+        let selectGreen = document.getElementById('voteGreen');
+        let selectedOptionGreen = selectGreen.value;
+
+        let selectRed = document.getElementById('voteRed');
+        let selectedOptionRed = selectRed.value;
+
+        let selectBlue = document.getElementById('voteBlue');
+        let selectedOptionBlue = selectBlue.value;
+
+        let objectId = changeId;
+        objectId = {
+            "green": selectedOptionGreen,
+            "red" : selectedOptionRed,
+            "blue" : selectedOptionBlue
+        }
+
+        localStorage.setItem(changeId, JSON.stringify(objectId));
+    }
+
+    btnConfirm.addEventListener("click", confirm);
+
+    function confirm(){
+        let newOptions = JSON.parse(localStorage.getItem(changeId));
+        let selectedOptionGreen = newOptions.green;
+        let selectedOptionRed = newOptions.red;
+        let selectedOptionBlue = newOptions.blue;
+
+        document.getElementsByClassName('start-to-vote')[0].style.display='none';
+        if(selectedOptionGreen === selectedOptionRed && selectedOptionGreen === selectedOptionBlue && selectedOptionRed === selectedOptionBlue){
+            document.getElementById('enterRes').textContent = (selectedOptionGreen);
+            document.getElementsByClassName('lastEnter')[0].style.display='block';
+        }
+        else{
+            document.getElementsByClassName('tryAgain')[0].style.display='block';
+        }
+
+        let textCommentGreen = document.getElementsByClassName('person-comment-green')[0].value;
+        document.getElementById('green-score').textContent = (selectedOptionGreen);
+        document.getElementById('green-text').textContent = (textCommentGreen);
+
+        let textCommentRed = document.getElementsByClassName('person-comment-red')[0].value;
+        document.getElementById('red-score').textContent = (selectedOptionRed);
+        document.getElementById('red-text').textContent = (textCommentRed);
+
+        let textCommentBlue = document.getElementsByClassName('person-comment-blue')[0].value;
+        document.getElementById('blue-score').textContent = (selectedOptionBlue);
+        document.getElementById('blue-text').textContent = (textCommentBlue);
+
+        btnTryAgain.addEventListener("click", function(){
+            document.getElementsByClassName('tryAgain')[0].style.display='none';
+            document.getElementsByClassName('start-to-vote')[0].style.display='block';
+        })
+    };
+}
