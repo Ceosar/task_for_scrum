@@ -31,26 +31,26 @@
                         <tr>
                             <td id="Task1">Task1</td>
                             <!-- <td><input class="name-of-task" type="text"></td> -->
-                            <td><div class="score-of-task" id="resultScore1"></div></td>
-                            <td><button onclick="changeFun(Task1)" id="change-score-of-task">change</button></td>
+                            <td><pre><div class="score-of-task" id="resultScore1"></div></pre></td>
+                            <td><button onclick="changeFun(Task1)" id="change-score-of-task">Change</button></td>
                         </tr>
                         <tr>
                             <td id="Task2">Task2</td>
                             <!-- <td><input class="name-of-task" type="text"></td> -->
-                            <td><div class="score-of-task" id="resultScore2"></div></td>
-                            <td><button onclick="changeFun(Task2)" id="change-score-of-task">change</button></td>
+                            <td><pre><div class="score-of-task" id="resultScore2"></div></pre></td>
+                            <td><button onclick="changeFun(Task2)" id="change-score-of-task">Change</button></td>
                         </tr>
                         <tr>
                             <td id="Task3">Task3</td>
                             <!-- <td><input class="name-of-task" type="text"></td> -->
-                            <td><div class="score-of-task" id="resultScore3"></div></td>
-                            <td><button onclick="changeFun(Task3)" id="change-score-of-task">change</button></td>
+                            <td><pre><div class="score-of-task" id="resultScore3"></div></pre></td>
+                            <td><button onclick="changeFun(Task3)" id="change-score-of-task">Change</button></td>
                         </tr>
                         <tr>
                             <td id="Task4">Task4</td>
                             <!-- <td><input class="name-of-task" type="text"></td> -->
-                            <td><div class="score-of-task" id="resultScore4"></div></td>
-                            <td><button onclick="changeFun(Task4)" id="change-score-of-task">change</button></td>
+                            <td><pre><div class="score-of-task" id="resultScore4"></div></pre></td>
+                            <td><button onclick="changeFun(Task4)" id="change-score-of-task">Change</button></td>
                         </tr>
                     </tbody>
                 </table>
@@ -59,8 +59,8 @@
             </div>
             <div class="start-to-vote">
                 <div id="text-of-answer"></div>
-                <!-- <button class="add-user" onclick="addUser()">Add user</button> -->
-                <div class="person">
+                <button class="add-user" onclick="addPerson()">Add user</button>
+                <div class="person person-green">
                     <div class="person-color green"></div>
                     <span class="person-name">Person Green votes for: </span>
                     <select name="" id="voteGreen" class="choosing">
@@ -76,7 +76,7 @@
                     </select>
                     <input type="text" class="person-comment-green" placeholder="Enter comment">
                 </div>
-                <div class="person">
+                <div class="person person-blue">
                     <div class="person-color red"></div>
                     <span class="person-name">Person Red votes for: </span>
                     <select name="" id="voteRed" class="choosing">
@@ -92,7 +92,7 @@
                     </select>
                     <input type="text" class="person-comment-red" placeholder="Enter comment">
                 </div>
-                <div class="person">
+                <div class="person person-blue">
                     <div class="person-color blue"></div>
                     <span class="person-name">Person Blue votes for: </span>
                     <select name="" id="voteBlue" class="choosing">
@@ -108,6 +108,38 @@
                     </select>
                     <input type="text" class="person-comment-blue" placeholder="Enter comment">
                 </div>
+                <!-- <div class="person person-orange">
+                    <div class="person-color orange"></div>
+                    <span class="person-name">Person Orange votes for: </span>
+                    <select name="" id="voteBlue" class="choosing">
+                        <option value="1" class="person-choose">1</option>
+                        <option value="2" class="person-choose">2</option>
+                        <option value="3" class="person-choose">3</option>
+                        <option value="5" class="person-choose">5</option>
+                        <option value="8" class="person-choose">8</option>
+                        <option value="13" class="person-choose">13</option>
+                        <option value="20" class="person-choose">20</option>
+                        <option value="40" class="person-choose">40</option>
+                        <option value="100" class="person-choose">100</option>
+                    </select>
+                    <input type="text" class="person-comment-orange" placeholder="Enter comment">
+                </div>
+                <div class="person person-yellow">
+                    <div class="person-color yellow"></div>
+                    <span class="person-name">Person Yellow votes for: </span>
+                    <select name="" id="voteYellow" class="choosing">
+                        <option value="1" class="person-choose">1</option>
+                        <option value="2" class="person-choose">2</option>
+                        <option value="3" class="person-choose">3</option>
+                        <option value="5" class="person-choose">5</option>
+                        <option value="8" class="person-choose">8</option>
+                        <option value="13" class="person-choose">13</option>
+                        <option value="20" class="person-choose">20</option>
+                        <option value="40" class="person-choose">40</option>
+                        <option value="100" class="person-choose">100</option>
+                    </select>
+                    <input type="text" class="person-comment-yellow" placeholder="Enter comment">
+                </div> -->
                 <button id="btnConfirm" class="btn-conf-choose">Press to confirm</button>
             </div>
             <div class="tryAgain">

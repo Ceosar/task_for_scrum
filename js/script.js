@@ -22,6 +22,10 @@ function addTask(){
     }
 }
 
+function addPerson() {
+    
+}
+
 function resultScores() {
     let scoreResult1 = JSON.parse(localStorage.getItem('Task1'));
     let scoreResult2 = JSON.parse(localStorage.getItem('Task2'));
@@ -103,11 +107,13 @@ function changeFun(arg)
         let selectedOptionBlue = newOptions.blue;
 
         document.getElementsByClassName('start-to-vote')[0].style.display='none';
-        if(selectedOptionGreen === selectedOptionRed && selectedOptionGreen === selectedOptionBlue && selectedOptionRed === selectedOptionBlue){
+        if(selectedOptionGreen === selectedOptionRed &&
+            selectedOptionGreen === selectedOptionBlue &&
+            selectedOptionRed === selectedOptionBlue
+        ){
             document.getElementById('enterRes').textContent = (selectedOptionGreen);
             document.getElementsByClassName('lastEnter')[0].style.display='block';
-        }
-        else{
+        }else{
             document.getElementsByClassName('tryAgain')[0].style.display='block';
         }
 

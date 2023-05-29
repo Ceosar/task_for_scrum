@@ -92,15 +92,22 @@ body{
                     border-radius: 50%;
                 }
 
+                .person-name{
+                    min-width: 300px;
+                }
+
                 .choosing{
                     border: 2px solid black;
                     border-radius: 10px;
                 }
                 .person-comment-green,
                 .person-comment-red,
-                .person-comment-blue
+                .person-comment-blue,
+                .person-comment-orange,
+                .person-comment-yellow
                 {
                     width: 500px;
+                    padding-left: 10px;
                     border: 1px solid grey;
                     border-radius: 10px;
                 }
@@ -172,6 +179,14 @@ body{
     background-color: red;
 }
 
+.orange{
+    background-color: orange;
+}
+
+.yellow{
+    background-color: rgb(251, 251, 5);
+}
+
 table {
     border: 1px solid black;
     background-color: black;
@@ -192,4 +207,5 @@ td {
     padding: 20px;
     border: 1px solid black;
     background-color: white;
+    text-align: center;
 }
