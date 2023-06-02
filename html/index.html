@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -8,6 +9,7 @@
     <link rel="stylesheet" href="/css/reset.css">
     <link rel="stylesheet" href="/css/style.css">
 </head>
+
 <body>
     <header class="header">
         <div class="container">
@@ -18,7 +20,14 @@
     </header>
     <main class="main">
         <div class="container">
+            <div class="input_data">
+                <span class="input_data__span">Введите имя задачи: </span>
+                <input type="text" class="input_data__input">
+            </div>
             <div class="list-of-task">
+                <button class="btn-add" onclick="switchModal()">Добавить</button>
+                <button id="btnSave" >Сохранить</button>
+                <!-- <button onclick="test()">test</button> -->
                 <table id="table-task">
                     <thead>
                         <tr>
@@ -27,32 +36,7 @@
                             <th>Function</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr>
-                            <td id="Task1">Task1</td>
-                            <!-- <td><input class="name-of-task" type="text"></td> -->
-                            <td><pre><div class="score-of-task" id="resultScore1"></div></pre></td>
-                            <td><button onclick="changeFun(Task1)" id="change-score-of-task">Change</button></td>
-                        </tr>
-                        <tr>
-                            <td id="Task2">Task2</td>
-                            <!-- <td><input class="name-of-task" type="text"></td> -->
-                            <td><pre><div class="score-of-task" id="resultScore2"></div></pre></td>
-                            <td><button onclick="changeFun(Task2)" id="change-score-of-task">Change</button></td>
-                        </tr>
-                        <tr>
-                            <td id="Task3">Task3</td>
-                            <!-- <td><input class="name-of-task" type="text"></td> -->
-                            <td><pre><div class="score-of-task" id="resultScore3"></div></pre></td>
-                            <td><button onclick="changeFun(Task3)" id="change-score-of-task">Change</button></td>
-                        </tr>
-                        <tr>
-                            <td id="Task4">Task4</td>
-                            <!-- <td><input class="name-of-task" type="text"></td> -->
-                            <td><pre><div class="score-of-task" id="resultScore4"></div></pre></td>
-                            <td><button onclick="changeFun(Task4)" id="change-score-of-task">Change</button></td>
-                        </tr>
-                    </tbody>
+                    <tbody></tbody>
                 </table>
                 <!-- <button onclick="create()">Click!</button> -->
                 <!-- <button onclick="addTask()">Add task</button> -->
@@ -177,4 +161,5 @@
 
     <script src="/js/script.js"></script>
 </body>
+
 </html>
