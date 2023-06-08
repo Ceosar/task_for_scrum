@@ -224,25 +224,32 @@ document.getElementById('btnAdd').style.display = "block";
 
 var state = {
     tasks: [],
-    users: [{
-        id: 'user1',
-        name: 'Ivan',
-        color: 'red'
-    }],
-    scores: [{
-        user_id: 'user1',
-        task_id: '1',
-        value: 5
-    }]
+    users: [
+        // {
+        // id: 'user1',
+        // name: 'Ivan',
+        // color: 'red'
+        // }
+    ],
+    scores: [
+        // {
+        //     user_id: 'user1',
+        //     task_id: '1',
+        //     value: 5
+        // }
+    ]
 }
 
 var inputName = document.getElementsByClassName("input_data__input")[0];
+var inputValue = document.getElementById("inputValue");
 function addTask() {
     if (inputName.value) {
         setTask(state.tasks, inputName.value, 'task' + (state.tasks.length));
+        setScore(state.scores, 'task' + (state.tasks.length - 1), inputValue.value);
+        // console.log(inputValue.value)
     }
 
-    renderTask(state.tasks)
+    renderTask(state.tasks, state.scores)
     inputName.value = ""
 
     //показать таблицы, показать Добавить, убрать Сохранить, убрать Ввести данные, убрать Модалку
@@ -307,20 +314,42 @@ function setUser(users, id, name, color, props) {
     }
 }
 
-function setScore(scores, user_id, task_id, props) {
-    var found_id = null;
+// function setScore(scores, user_id, task_id, value, props) {
+//     var found_id = -1;
+//     props = {
+//         user_id: user_id,
+//         task_id: task_id,
+//         value: value
+//     }
+
+//     if (found_id) {
+//         scores[found_id] = Object.assign(scores[found_id], props);
+//     }
+//     else {
+//         scores.push(Object.assign({ user_id: user_id, task_id: task_id }, props));
+//         console.log(scores);
+//     }
+// }
+
+
+function setScore(scores, task_id, value, props) {
+    var found_id = -1;
     props = {
-        user_id: "",
-        task_id: "",
-        value: 1
+        task_id: task_id,
+        value: value
     }
 
-    if (found_id) {
-        scores[found_id] = Object.assign(scores[found_id], props);
+    scores.forEach((element, index) => {
+        if (element.task_id == task_id) {
+            found_id = index;
+        }
+    });
+
+    if (found_id >= 0) {
+        scores[found_id] = Object.assign(props);
     }
     else {
-        scores.push(Object.assign({ user_id: user_id, task_id: task_id }, props));
-        console.log(scores);
+        scores.push(Object.assign(props));
     }
 }
 
@@ -337,7 +366,8 @@ function changeTaskInTable() {
     document.getElementById('table-task').style.display = "block";
     var id_task = document.getElementById('input_id__span').innerHTML;
     setTask(state.tasks, inputName.value, id_task);
-    renderTask(state.tasks)
+    setScore(state.scores, id_task, inputValue.value);
+    renderTask(state.tasks, state.scores)
 
     // document.getElementById('table-task').style.display = "block";
     // document.getElementById('btnChange').style.display = "none";
@@ -350,7 +380,7 @@ buttonChange.onclick = changeTaskInTable;
 
 var btnChange = document.createElement('button');
 
-function renderTask(tasks) {
+function renderTask(tasks, scores) {
     var table = document.querySelector('#table-task tbody');
     table.innerHTML = ''
     for (let i = 0; i < tasks.length; i++) {
@@ -363,6 +393,7 @@ function renderTask(tasks) {
 
         if (tasks[i].name) {
             newName.textContent = tasks[i].name;
+            newScore.textContent = scores[i].value;
             newRow.appendChild(newName);
             // newName.appendChild(inputName);
             newRow.appendChild(newScore);
@@ -376,33 +407,43 @@ function renderTask(tasks) {
 
 function init() {
     var tasks = state.tasks
+    var scores = state.scores
 
-    renderTask(tasks);
+    renderTask(tasks, scores);
 }
 init();
 
 function switchModal(toggle) {
     if (toggle) {
+        var selectOption = Array.from(selectInput.options).find((opt) => opt.value == '1');
+        selectOption.selected = true;
         inputName.value = '';
         document.getElementById('table-task').style.display = "none";
         document.getElementById('btnSave').style.display = "block";
         document.getElementById('btnAdd').style.display = "none";
         document.getElementsByClassName('input_data')[0].style.display = "block";
-        console.log(toggle);
 
     } else {
         document.getElementById('table-task').style.display = "block";
         document.getElementById('btnSave').style.display = "none";
         document.getElementById('btnAdd').style.display = "block";
         document.getElementsByClassName('input_data')[0].style.display = "none";
-        console.log(toggle);
     }
 
 }
 btnAdd.onclick = switchModal;
 
+var selectInput = document.getElementById('inputValue');
 function changeSwitchModal(id, toggle) {
     if (toggle) {
+        state.scores.forEach((element) => {
+            if (element.task_id == id) {
+                var selectOption = Array.from(selectInput.options).find((opt) => opt.value == element.value);
+                if (selectOption) {
+                    selectOption.selected = true;
+                }
+            }
+        });
         document.getElementById('input_id__span').innerHTML = id;
         document.getElementById('input_id__span').style.display = "none";
         document.getElementById('btnChange').style.display = "block";
