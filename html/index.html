@@ -21,12 +21,14 @@
     <main class="main">
         <div class="container">
             <div class="input_data">
+                <span id="input_id__span"></span>
                 <span class="input_data__span">Введите имя задачи: </span>
                 <input type="text" class="input_data__input">
             </div>
             <div class="list-of-task">
-                <button class="btn-add" onclick="switchModal()">Добавить</button>
-                <button id="btnSave" >Сохранить</button>
+                <button id="btnAdd">Добавить</button>
+                <button id="btnSave">Сохранить</button>
+                <button id="btnChange">Изменить</button>
                 <!-- <button onclick="test()">test</button> -->
                 <table id="table-task">
                     <thead>

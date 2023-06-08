@@ -22,7 +22,8 @@ body{
     background-color: rgb(117, 117, 254);
 
     .container{
-        max-width: 1100px;
+        margin: 0 auto;
+        width: 1000px;
         height: 100%;
         display: flex;
         align-items: center;
@@ -73,7 +74,7 @@ body{
                 border-radius: 10px;
             }
 
-            #change-score-of-task{
+            .change-score-of-task{
                 padding: 10px;
                 color: white;
                 background-color: rgb(117, 117, 254);

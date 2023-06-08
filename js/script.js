@@ -139,22 +139,91 @@
 //     };
 // }
 
-document.getElementsByClassName('input_data')[0].style.display="none";
-document.getElementById('table-task').style.display="none";
-document.getElementById('btnSave').style.display="none";
 
+// function setTask(tasks, id, name, props) {
+//     var found_id = null;
+//     props = {
+//         id: '',
+//         name: ''
+//     }
+
+//     // filter
+//     // tasks.filter((value) => {
+//     //     if (value.name) {
+//     //         // console.log(value);
+//     //         found_id = 1;
+//     //         props.id = value.id;
+//     //         props.name = value.name;
+//     //         // localStorage.setItem("tasks", JSON.stringify(props));
+//     //     }
+//     // });
+
+//     tasks.forEach(element => {
+//         if(element.name){
+//             console.log(element)
+//             found_id = 1;
+//         }
+//     });
+
+//     // console.log(tasks);
+
+//     if (found_id) {
+//         tasks[found_id] = Object.assign(tasks[found_id], props);
+//         // console.log(found_id);
+//         // console.log(tasks);
+//     } else {
+//         tasks.push(Object.assign({ id: id, name: name }, props));
+//         // console.log(found_id);
+//     }
+
+// }
+
+
+
+//
+
+// function setTask(tasks, id, name, props) {
+//     var foundIndex = -1;
+
+//     tasks.forEach((task, index) => {
+//         if (task.task_name === name) {
+//             foundIndex = index;
+//             return;
+//         }
+//     });
+
+//     if (foundIndex !== -1) {
+//         tasks[foundIndex].task_name.id = id;
+//         tasks[foundIndex].task_name.name = name;
+//     } else {
+//         tasks.push({
+//             task_name: {
+//                 id: id,
+//                 name: name
+//             },
+//             props: props
+//         });
+//     }
+
+//     localStorage.setItem('tasks', JSON.stringify(tasks));
+// }
+
+
+//
+
+document.getElementsByClassName('input_data')[0].style.display = "none";
+document.getElementById('table-task').style.display = "none";
+document.getElementById('btnSave').style.display = "none";
+document.getElementById('btnChange').style.display = "none";
 
 var btnSave = document.getElementById('btnSave');
+var buttonChange = document.getElementById('btnChange');
+var btnAdd = document.getElementById('btnAdd');
 
-document.getElementsByClassName('btn-add')[0].style.display="block";
-// document.getElementById('btnSave').style.display="block";
-
+document.getElementById('btnAdd').style.display = "block";
 
 var state = {
-    tasks: [{
-        id: 'user1',
-        name: null
-    }],
+    tasks: [],
     users: [{
         id: 'user1',
         name: 'Ivan',
@@ -169,54 +238,72 @@ var state = {
 
 var inputName = document.getElementsByClassName("input_data__input")[0];
 function addTask() {
-    if(inputName.value){
-        state.tasks.push({
-            id: 'user' + state.tasks.length,
-            name: inputName.value
-        });
+    if (inputName.value) {
+        setTask(state.tasks, inputName.value, 'task' + (state.tasks.length));
     }
 
-    document.getElementById('table-task').style.display="block";
     renderTask(state.tasks)
-
     inputName.value = ""
 
-    document.getElementById('btnSave').style.display="none"; //показываю кнопку Сохранить
-    document.getElementsByClassName('btn-add')[0].style.display="block"; //выключаю кнопку Добавить
-    document.getElementsByClassName('input_data')[0].style.display="none"; //вывожу modal окно
+    //показать таблицы, показать Добавить, убрать Сохранить, убрать Ввести данные, убрать Модалку
+    // document.getElementById('table-task').style.display = "block";
+    // document.getElementById('btnSave').style.display = "none"; //показываю кнопку Сохранить
+    // document.getElementById('btnAdd').style.display = "block";
+    // document.getElementsByClassName('input_data')[0].style.display = "none"; //вывожу modal окно
+    switchModal(false)
 }
 btnSave.onclick = addTask;
 
-function setTask(tasks, id, name, props) {
-    var found_id = null;
+// function setTask(tasks, id, name) {
+//     var foundIndex = tasks.findIndex(task => task.id === id || task.name === name);
+// console.log(foundIndex)
+//     if (foundIndex !== -1) {
+//         tasks[foundIndex].id = id;
+//         tasks[foundIndex].name = name;
+//         console.log('found index != -1');
+//     } else {
+//         tasks.push(Object.assign({ id: id, name: name }));
+//         console.log('found index else');
+//     }
+// }
+
+function setTask(tasks, name, id, props) {
+    var found_id = -1;
     props = {
-        id:'',
-        name:''
+        id: id,
+        name: name
     }
 
-    // filter
 
-    if(found_id){
-        tasks[found_id] = Object.assign(tasks[found_id], props);
-    } else{
-        tasks.push(Object.assign({id: id, name: name}, props));
-        console.log(tasks);
+    // filter
+    tasks.forEach((element, index) => {
+        if (element.id == id) {
+            found_id = index;
+            // props.id = value.id;
+            // props.name = value.name;
+        }
+    });
+
+    if (found_id >= 0) {
+        tasks[found_id] = Object.assign(props);
+    } else {
+        tasks.push(Object.assign(props));
     }
 }
 
 function setUser(users, id, name, color, props) {
-    found_id=null;
+    found_id = null;
     props = {
-        id:'',
-        name:'',
-        color:''
+        id: '',
+        name: '',
+        color: ''
     }
 
-    if(found_id){
+    if (found_id) {
         users[found_id] = Object.assign(users[found_id], props);
-    } else{
-    users.push(Object.assign({id: id, name: name, color: color}, props));
-    console.log(users);
+    } else {
+        users.push(Object.assign({ id: id, name: name, color: color }, props));
+        console.log(users);
     }
 }
 
@@ -228,89 +315,107 @@ function setScore(scores, user_id, task_id, props) {
         value: 1
     }
 
-    if (found_id){
+    if (found_id) {
         scores[found_id] = Object.assign(scores[found_id], props);
     }
-    else{
-        scores.push(Object.assign({user_id: user_id, task_id: task_id}, props));
+    else {
+        scores.push(Object.assign({ user_id: user_id, task_id: task_id }, props));
         console.log(scores);
     }
 }
-// setScore();
-// var inputName = document.createElement('input');
 
-// var newRow = document.createElement('tr');
-// var newName = document.createElement('td');
-// var newScore = document.createElement('td');
+function editTask(id) {
+    state.tasks.forEach((element) => {
+        if (element.id == id) {
+            inputName.value = element.name;
+        }
+    });
+    changeSwitchModal(id, true);
+}
+
+function changeTaskInTable() {
+    document.getElementById('table-task').style.display = "block";
+    var id_task = document.getElementById('input_id__span').innerHTML;
+    setTask(state.tasks, inputName.value, id_task);
+    renderTask(state.tasks)
+
+    // document.getElementById('table-task').style.display = "block";
+    // document.getElementById('btnChange').style.display = "none";
+    // document.getElementById('btnSave').style.display = "none";
+    // document.getElementById('btnAdd').style.display = "block";
+    // document.getElementsByClassName('input_data')[0].style.display = "none";
+    changeSwitchModal(null, false);
+}
+buttonChange.onclick = changeTaskInTable;
+
 var btnChange = document.createElement('button');
 
 function renderTask(tasks) {
     var table = document.querySelector('#table-task tbody');
     table.innerHTML = ''
-    // debugger
-    for(let i = 0; i < tasks.length; i++){
+    for (let i = 0; i < tasks.length; i++) {
         var newRow = document.createElement('tr');
         var newName = document.createElement('td');
         var newScore = document.createElement('td');
         var newFunction = document.createElement('td');
 
-            // for(let eachTask in tasks){
-            //     newScore.textContent = tasks[eachTask].score;
-            // }
-        if(tasks[i].name){
+        newFunction.innerHTML = `<button class="change-score-of-task" onclick = "editTask(\'${tasks[i].id}\')">Change</button>`
+
+        if (tasks[i].name) {
             newName.textContent = tasks[i].name;
             newRow.appendChild(newName);
             // newName.appendChild(inputName);
             newRow.appendChild(newScore);
             newRow.appendChild(newFunction);
             newFunction.appendChild(btnChange);
-    
+
             table.appendChild(newRow);
         }
-
-            // if(i == Object.keys(tasks).length){
-            //     console.log('hi')
-            //     document.getElementsByClassName('btn-add')[0].style.display="none";
-            // }
     }
 }
 
-// btnSave.addEventListener('click', saveNameOfTask);
-// function saveNameOfTask() {
-//     var inputName = document.getElementsByClassName("input_data__input")[0];
-//     console.log(inputName.value)
-//     if(inputName.value){
-//         // inputName.style.display="none";
-//         newName.textContent = inputName.value;
-//         document.getElementsByClassName('btn-add')[0].style.display="block";
-//         document.getElementById('btnSave').style.display="none";
-//         document.getElementsByClassName('input_data')[0].style.display="none";
-//         document.getElementById('table-task').style.display="block";
-//         // setTask(tasks, 1, newName.textContent, "first");
-//     }
-// }
-
 function init() {
-    // var tasks = JSON.parse(localStorage.getItem('tasks')) || [{name: '', score:''}];
     var tasks = state.tasks
 
-    // switchModal();
     renderTask(tasks);
-    // достаем стейт из localstorage
-    // вызываем renderTasks передаем state.tasks
 }
 init();
-// function test() {
-//     var obj = {
-//         task1:{name:'task1', score: 5}
-//     }
-//     localStorage.setItem('tasks', JSON.stringify(obj));
-// }
-// initTask();
 
-function switchModal() {
-    document.getElementById('btnSave').style.display="block"; //показываю кнопку Сохранить
-    document.getElementsByClassName('btn-add')[0].style.display="none"; //выключаю кнопку Добавить
-    document.getElementsByClassName('input_data')[0].style.display="block"; //вывожу modal окно
-    document.getElementById('table-task').style.display="none";
+function switchModal(toggle) {
+    if (toggle) {
+        inputName.value = '';
+        document.getElementById('table-task').style.display = "none";
+        document.getElementById('btnSave').style.display = "block";
+        document.getElementById('btnAdd').style.display = "none";
+        document.getElementsByClassName('input_data')[0].style.display = "block";
+        console.log(toggle);
+
+    } else {
+        document.getElementById('table-task').style.display = "block";
+        document.getElementById('btnSave').style.display = "none";
+        document.getElementById('btnAdd').style.display = "block";
+        document.getElementsByClassName('input_data')[0].style.display = "none";
+        console.log(toggle);
+    }
+
+}
+btnAdd.onclick = switchModal;
+
+function changeSwitchModal(id, toggle) {
+    if (toggle) {
+        document.getElementById('input_id__span').innerHTML = id;
+        document.getElementById('input_id__span').style.display = "none";
+        document.getElementById('btnChange').style.display = "block";
+        document.getElementById('btnAdd').style.display = "none";
+        document.getElementsByClassName('input_data')[0].style.display = "block";
+        document.getElementById('table-task').style.display = "none";
+    }
+    else {
+        document.getElementById('input_id__span').innerHTML = '';
+        document.getElementById('table-task').style.display = "block";
+        document.getElementById('btnChange').style.display = "none";
+        document.getElementById('btnSave').style.display = "none";
+        document.getElementById('btnAdd').style.display = "block";
+        document.getElementsByClassName('input_data')[0].style.display = "none";
+    }
 }
