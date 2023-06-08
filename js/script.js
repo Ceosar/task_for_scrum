@@ -215,10 +215,12 @@ document.getElementsByClassName('input_data')[0].style.display = "none";
 document.getElementById('table-task').style.display = "none";
 document.getElementById('btnSave').style.display = "none";
 document.getElementById('btnChange').style.display = "none";
+document.getElementById('btnDel').style.display = 'none';
 
 var btnSave = document.getElementById('btnSave');
 var buttonChange = document.getElementById('btnChange');
 var btnAdd = document.getElementById('btnAdd');
+var btnDel = document.getElementById('btnDel');
 
 document.getElementById('btnAdd').style.display = "block";
 
@@ -363,18 +365,23 @@ function editTask(id) {
 }
 
 function changeTaskInTable() {
-    document.getElementById('table-task').style.display = "block";
-    var id_task = document.getElementById('input_id__span').innerHTML;
-    setTask(state.tasks, inputName.value, id_task);
-    setScore(state.scores, id_task, inputValue.value);
-    renderTask(state.tasks, state.scores)
+    if(inputName.value){
+        document.getElementById('table-task').style.display = "block";
+        var id_task = document.getElementById('input_id__span').innerHTML;
+        setTask(state.tasks, inputName.value, id_task);
+        setScore(state.scores, id_task, inputValue.value);
+        renderTask(state.tasks, state.scores)
 
-    // document.getElementById('table-task').style.display = "block";
-    // document.getElementById('btnChange').style.display = "none";
-    // document.getElementById('btnSave').style.display = "none";
-    // document.getElementById('btnAdd').style.display = "block";
-    // document.getElementsByClassName('input_data')[0].style.display = "none";
-    changeSwitchModal(null, false);
+        // document.getElementById('table-task').style.display = "block";
+        // document.getElementById('btnChange').style.display = "none";
+        // document.getElementById('btnSave').style.display = "none";
+        // document.getElementById('btnAdd').style.display = "block";
+        // document.getElementsByClassName('input_data')[0].style.display = "none";
+        changeSwitchModal(null, false);
+    }
+    else{
+        alert("Введите имя задачи!");
+    }
 }
 buttonChange.onclick = changeTaskInTable;
 
@@ -448,6 +455,7 @@ function changeSwitchModal(id, toggle) {
         document.getElementById('input_id__span').style.display = "none";
         document.getElementById('btnChange').style.display = "block";
         document.getElementById('btnAdd').style.display = "none";
+        document.getElementById('btnDel').style.display = "block";
         document.getElementsByClassName('input_data')[0].style.display = "block";
         document.getElementById('table-task').style.display = "none";
     }
@@ -457,6 +465,24 @@ function changeSwitchModal(id, toggle) {
         document.getElementById('btnChange').style.display = "none";
         document.getElementById('btnSave').style.display = "none";
         document.getElementById('btnAdd').style.display = "block";
+        document.getElementById('btnDel').style.display = "none";
         document.getElementsByClassName('input_data')[0].style.display = "none";
     }
 }
+
+function deleteTask(){
+    inputName.value = "";
+    document.getElementById('table-task').style.display = "block";
+    var id_task = document.getElementById('input_id__span').innerHTML;
+    setTask(state.tasks, inputName.value, id_task);
+    setScore(state.scores, id_task, inputValue.value);
+    renderTask(state.tasks, state.scores)
+
+    // document.getElementById('table-task').style.display = "block";
+    // document.getElementById('btnChange').style.display = "none";
+    // document.getElementById('btnSave').style.display = "none";
+    // document.getElementById('btnAdd').style.display = "block";
+    // document.getElementsByClassName('input_data')[0].style.display = "none";
+    changeSwitchModal(null, false);
+}
+btnDel.onclick = deleteTask;

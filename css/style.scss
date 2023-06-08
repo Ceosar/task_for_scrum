@@ -1,27 +1,27 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
 //   font-family: 'Roboto', sans-serif;
 
-html{
+html {
     height: 100%;
 }
 
-body{
+body {
     height: 100%;
     display: flex;
     flex-direction: column;
     font-family: 'Roboto', sans-serif;
 }
 
-.container{
+.container {
     padding: 0 50px;
 }
 
-.header{
+.header {
     width: 100vw;
     height: 100px;
     background-color: rgb(117, 117, 254);
 
-    .container{
+    .container {
         margin: 0 auto;
         width: 1000px;
         height: 100%;
@@ -29,8 +29,8 @@ body{
         align-items: center;
         justify-content: center;
 
-        .header-logo{
-            &__text{
+        .header-logo {
+            &__text {
                 font-size: 50px;
                 font-weight: 100;
                 letter-spacing: 4px;
@@ -39,42 +39,43 @@ body{
     }
 }
 
-.main{
+.main {
     width: 100vw;
     padding-top: 20px;
     background-color: white;
     flex-grow: 1;
 
-    .container{
+    .container {
         width: 1100px;
         margin: 0 auto;
         font-size: 25px;
 
-        .list-of-task{
+        .list-of-task {
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             gap: 20px;
 
-            table{
+            table {
                 // width: 90%;
             }
 
-            input{
+            input {
                 padding: 5px;
                 border: 1px solid grey;
                 border-radius: 5px;
             }
+
             // display: none;
 
-            .name-of-task{
+            .name-of-task {
                 // width: 500px;
                 border: 1px solid grey;
                 border-radius: 10px;
             }
 
-            .change-score-of-task{
+            .change-score-of-task {
                 padding: 10px;
                 color: white;
                 background-color: rgb(117, 117, 254);
@@ -82,60 +83,67 @@ body{
             }
         }
 
-        .input_data{
+        .input_data {
             margin: 15px auto;
             padding: 20px;
             width: 90%;
             height: 200px;
-            border:4px solid black;
+            border: 4px solid black;
             border-radius: 15px;
 
-            .input_data__input{
+            .input_data__input {
                 border-radius: 10px;
                 border: 1px solid grey;
             }
-            .input_data__span{
 
+            .input_data__span {}
+
+            .btn-delete {
+                margin-top: 10%;
+                padding: 10px;
+                color: white;
+                background-color: rgb(202, 0, 0);
+                border-radius: 10px;
             }
         }
 
-        .start-to-vote{
+        .start-to-vote {
             margin-bottom: 40px;
             display: none;
 
-            #text-of-answer{
+            #text-of-answer {
                 text-align: center;
                 font-size: 25px;
                 font-weight: 900;
             }
 
-            .person{
+            .person {
                 margin: 20px 0;
                 display: flex;
                 flex-direction: row;
                 align-items: center;
                 gap: 30px;
 
-                .person-color{
+                .person-color {
                     width: 20px;
                     height: 20px;
                     border-radius: 50%;
                 }
 
-                .person-name{
+                .person-name {
                     min-width: 300px;
                 }
 
-                .choosing{
+                .choosing {
                     border: 2px solid black;
                     border-radius: 10px;
                 }
+
                 .person-comment-green,
                 .person-comment-red,
                 .person-comment-blue,
                 .person-comment-orange,
-                .person-comment-yellow
-                {
+                .person-comment-yellow {
                     width: 500px;
                     padding-left: 10px;
                     border: 1px solid grey;
@@ -143,7 +151,7 @@ body{
                 }
             }
 
-            .btn-conf-choose{
+            .btn-conf-choose {
                 padding: 10px;
                 color: white;
                 background-color: rgb(117, 117, 254);
@@ -151,11 +159,11 @@ body{
             }
         }
 
-        .lastEnter{
+        .lastEnter {
             display: none;
             font-size: 35px;
 
-            .btn-next{
+            .btn-next {
                 padding: 10px;
                 color: white;
                 background-color: rgb(117, 117, 254);
@@ -163,24 +171,24 @@ body{
             }
         }
 
-        .tryAgain{
+        .tryAgain {
             display: none;
 
-            .person-comment{
+            .person-comment {
                 margin: 20px 0;
                 display: flex;
                 flex-direction: row;
                 align-items: center;
                 gap: 20px;
 
-                .person-color-again{
+                .person-color-again {
                     width: 20px;
                     height: 20px;
                     border-radius: 50%;
                 }
             }
 
-            .btn-try-again{
+            .btn-try-again {
                 padding: 10px;
                 color: white;
                 background-color: rgb(117, 117, 254);
@@ -190,30 +198,30 @@ body{
     }
 }
 
-.footer{
+.footer {
     width: 100vw;
     height: 100px;
     background-color: rgb(117, 117, 254);
 }
 
 
-.green{
+.green {
     background-color: green;
 }
 
-.blue{
+.blue {
     background-color: blue;
 }
 
-.red{
+.red {
     background-color: red;
 }
 
-.orange{
+.orange {
     background-color: orange;
 }
 
-.yellow{
+.yellow {
     background-color: rgb(251, 251, 5);
 }
 
