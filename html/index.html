@@ -16,6 +16,10 @@
             <div class="header-logo">
                 <h2 class="header-logo__text">Scrum</h2>
             </div>
+            <nav class="header-nav">
+                <a href="users.html">Пользователи</a>
+                <a href="index.html">Задачи</a>
+            </nav>
         </div>
     </header>
     <main class="main">
@@ -42,7 +46,6 @@
                 <button id="btnAdd">Добавить</button>
                 <button id="btnSave">Сохранить</button>
                 <button id="btnChange">Изменить</button>
-                <!-- <button onclick="test()">test</button> -->
                 <table id="table-task">
                     <thead>
                         <tr>
@@ -53,124 +56,12 @@
                     </thead>
                     <tbody></tbody>
                 </table>
-                <!-- <button onclick="create()">Click!</button> -->
-                <!-- <button onclick="addTask()">Add task</button> -->
-            </div>
-            <div class="start-to-vote">
-                <div id="text-of-answer"></div>
-                <button class="add-user" onclick="addPerson()">Add user</button>
-                <div class="person person-green">
-                    <div class="person-color green"></div>
-                    <span class="person-name">Person Green votes for: </span>
-                    <select name="" id="voteGreen" class="choosing">
-                        <option value="1" class="person-choose">1</option>
-                        <option value="2" class="person-choose">2</option>
-                        <option value="3" class="person-choose">3</option>
-                        <option value="5" class="person-choose">5</option>
-                        <option value="8" class="person-choose">8</option>
-                        <option value="13" class="person-choose">13</option>
-                        <option value="20" class="person-choose">20</option>
-                        <option value="40" class="person-choose">40</option>
-                        <option value="100" class="person-choose">100</option>
-                    </select>
-                    <input type="text" class="person-comment-green" placeholder="Enter comment">
-                </div>
-                <div class="person person-blue">
-                    <div class="person-color red"></div>
-                    <span class="person-name">Person Red votes for: </span>
-                    <select name="" id="voteRed" class="choosing">
-                        <option value="1" class="person-choose">1</option>
-                        <option value="2" class="person-choose">2</option>
-                        <option value="3" class="person-choose">3</option>
-                        <option value="5" class="person-choose">5</option>
-                        <option value="8" class="person-choose">8</option>
-                        <option value="13" class="person-choose">13</option>
-                        <option value="20" class="person-choose">20</option>
-                        <option value="40" class="person-choose">40</option>
-                        <option value="100" class="person-choose">100</option>
-                    </select>
-                    <input type="text" class="person-comment-red" placeholder="Enter comment">
-                </div>
-                <div class="person person-blue">
-                    <div class="person-color blue"></div>
-                    <span class="person-name">Person Blue votes for: </span>
-                    <select name="" id="voteBlue" class="choosing">
-                        <option value="1" class="person-choose">1</option>
-                        <option value="2" class="person-choose">2</option>
-                        <option value="3" class="person-choose">3</option>
-                        <option value="5" class="person-choose">5</option>
-                        <option value="8" class="person-choose">8</option>
-                        <option value="13" class="person-choose">13</option>
-                        <option value="20" class="person-choose">20</option>
-                        <option value="40" class="person-choose">40</option>
-                        <option value="100" class="person-choose">100</option>
-                    </select>
-                    <input type="text" class="person-comment-blue" placeholder="Enter comment">
-                </div>
-                <!-- <div class="person person-orange">
-                    <div class="person-color orange"></div>
-                    <span class="person-name">Person Orange votes for: </span>
-                    <select name="" id="voteBlue" class="choosing">
-                        <option value="1" class="person-choose">1</option>
-                        <option value="2" class="person-choose">2</option>
-                        <option value="3" class="person-choose">3</option>
-                        <option value="5" class="person-choose">5</option>
-                        <option value="8" class="person-choose">8</option>
-                        <option value="13" class="person-choose">13</option>
-                        <option value="20" class="person-choose">20</option>
-                        <option value="40" class="person-choose">40</option>
-                        <option value="100" class="person-choose">100</option>
-                    </select>
-                    <input type="text" class="person-comment-orange" placeholder="Enter comment">
-                </div>
-                <div class="person person-yellow">
-                    <div class="person-color yellow"></div>
-                    <span class="person-name">Person Yellow votes for: </span>
-                    <select name="" id="voteYellow" class="choosing">
-                        <option value="1" class="person-choose">1</option>
-                        <option value="2" class="person-choose">2</option>
-                        <option value="3" class="person-choose">3</option>
-                        <option value="5" class="person-choose">5</option>
-                        <option value="8" class="person-choose">8</option>
-                        <option value="13" class="person-choose">13</option>
-                        <option value="20" class="person-choose">20</option>
-                        <option value="40" class="person-choose">40</option>
-                        <option value="100" class="person-choose">100</option>
-                    </select>
-                    <input type="text" class="person-comment-yellow" placeholder="Enter comment">
-                </div> -->
-                <button id="btnConfirm" class="btn-conf-choose">Press to confirm</button>
-            </div>
-            <div class="tryAgain">
-                <div class="person-comment">
-                    <div class="person-color-again green"></div>
-                    <span class="name-of-person">Person Green rated by:</span>
-                    <span id="green-score"></span>
-                    <span class="green-text-comment" id="green-text"></span>
-                </div>
-                <div class="person-comment">
-                    <div class="person-color-again red"></div>
-                    <span class="name-of-person">Person Red rated by:</span>
-                    <span id="red-score"></span>
-                    <span class="red-text-comment" id="red-text"></span>
-                </div>
-                <div class="person-comment">
-                    <div class="person-color-again blue"></div>
-                    <span class="name-of-person">Person Blue rated by:</span>
-                    <span id="blue-score"></span>
-                    <span class="blue-text-comment" id="blue-text"></span>
-                </div>
-                <button id="btnTryAgain" class="btn-try-again">Try Again</button>
-            </div>
-            <div class="lastEnter">
-                <span class="text-of-enter">Final assessment:</span>
-                <span class="enterResult" id="enterRes"></span>
-                <button onclick="tryAgainFun()" class="btn-next">Next</button>
             </div>
         </div>
     </main>
     <footer class="footer">
         <div class="container">
+            <button id="btnTest">Test</button>
         </div>
     </footer>
 

@@ -27,13 +27,23 @@ body {
         height: 100%;
         display: flex;
         align-items: center;
-        justify-content: center;
+        justify-content: space-around;
 
         .header-logo {
             &__text {
                 font-size: 50px;
                 font-weight: 100;
                 letter-spacing: 4px;
+            }
+        }
+
+        .header-nav{
+            display: flex;
+            gap: 20px;
+
+            a{
+                color: black;
+                font-size: 20px;
             }
         }
     }
@@ -106,95 +116,6 @@ body {
                 border-radius: 10px;
             }
         }
-
-        .start-to-vote {
-            margin-bottom: 40px;
-            display: none;
-
-            #text-of-answer {
-                text-align: center;
-                font-size: 25px;
-                font-weight: 900;
-            }
-
-            .person {
-                margin: 20px 0;
-                display: flex;
-                flex-direction: row;
-                align-items: center;
-                gap: 30px;
-
-                .person-color {
-                    width: 20px;
-                    height: 20px;
-                    border-radius: 50%;
-                }
-
-                .person-name {
-                    min-width: 300px;
-                }
-
-                .choosing {
-                    border: 2px solid black;
-                    border-radius: 10px;
-                }
-
-                .person-comment-green,
-                .person-comment-red,
-                .person-comment-blue,
-                .person-comment-orange,
-                .person-comment-yellow {
-                    width: 500px;
-                    padding-left: 10px;
-                    border: 1px solid grey;
-                    border-radius: 10px;
-                }
-            }
-
-            .btn-conf-choose {
-                padding: 10px;
-                color: white;
-                background-color: rgb(117, 117, 254);
-                border-radius: 10px;
-            }
-        }
-
-        .lastEnter {
-            display: none;
-            font-size: 35px;
-
-            .btn-next {
-                padding: 10px;
-                color: white;
-                background-color: rgb(117, 117, 254);
-                border-radius: 10px;
-            }
-        }
-
-        .tryAgain {
-            display: none;
-
-            .person-comment {
-                margin: 20px 0;
-                display: flex;
-                flex-direction: row;
-                align-items: center;
-                gap: 20px;
-
-                .person-color-again {
-                    width: 20px;
-                    height: 20px;
-                    border-radius: 50%;
-                }
-            }
-
-            .btn-try-again {
-                padding: 10px;
-                color: white;
-                background-color: rgb(117, 117, 254);
-                border-radius: 10px;
-            }
-        }
     }
 }
 
@@ -202,27 +123,6 @@ body {
     width: 100vw;
     height: 100px;
     background-color: rgb(117, 117, 254);
-}
-
-
-.green {
-    background-color: green;
-}
-
-.blue {
-    background-color: blue;
-}
-
-.red {
-    background-color: red;
-}
-
-.orange {
-    background-color: orange;
-}
-
-.yellow {
-    background-color: rgb(251, 251, 5);
 }
 
 table {
