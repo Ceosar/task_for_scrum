@@ -20,14 +20,12 @@ var state = {
     scores: []
 }
 
-function test(){
-    for(i = 0; i < stateFromStorage.tasks.length; i++){
-        state.tasks.push(stateFromStorage.tasks[i])
-        state.scores.push(stateFromStorage.scores[i])
-    }
-}
-
-
+// function test(){
+//     for(i = 1; i < stateFromStorage.tasks.length; i++){
+//         state.tasks.push(stateFromStorage.tasks[i])
+//         state.scores.push(stateFromStorage.scores[i])
+//     }
+// }
 
 console.log(state.tasks)
 console.log(state.scores)
@@ -56,7 +54,6 @@ function addTask() {
 btnSave.onclick = addTask;
 
 function setTask(tasks, name, id, props) {
-
     var found_id = -1;
     props = {
         id: id,
@@ -73,24 +70,25 @@ function setTask(tasks, name, id, props) {
         tasks[found_id] = Object.assign(props);
     } else {
         tasks.push(Object.assign(props));
+        pushDataToStorage();
     }
 }
 
-function setUser(users, id, name, color, props) {
-    found_id = null;
-    props = {
-        id: '',
-        name: '',
-        color: ''
-    }
+// function setUser(users, id, name, color, props) {
+//     found_id = null;
+//     props = {
+//         id: '',
+//         name: '',
+//         color: ''
+//     }
 
-    if (found_id) {
-        users[found_id] = Object.assign(users[found_id], props);
-    } else {
-        users.push(Object.assign({ id: id, name: name, color: color }, props));
-        console.log(users);
-    }
-}
+//     if (found_id) {
+//         users[found_id] = Object.assign(users[found_id], props);
+//     } else {
+//         users.push(Object.assign({ id: id, name: name, color: color }, props));
+//         console.log(users);
+//     }
+// }
 
 function setScore(scores, task_id, value, props) {
     var found_id = -1;
@@ -110,6 +108,7 @@ function setScore(scores, task_id, value, props) {
     }
     else {
         scores.push(Object.assign(props));
+        pushDataToStorage();
     }
 }
 
@@ -192,8 +191,8 @@ function switchModal(toggle) {
         document.getElementById('btnSave').style.display = "none";
         document.getElementById('btnAdd').style.display = "block";
         document.getElementsByClassName('input_data')[0].style.display = "none";
-        pushDataToStorage();
-        test()
+        // pushDataToStorage();
+        // test()
     }
 }
 btnAdd.onclick = switchModal;
@@ -226,8 +225,8 @@ function changeSwitchModal(id, toggle) {
         document.getElementById('btnAdd').style.display = "block";
         document.getElementById('btnDel').style.display = "none";
         document.getElementsByClassName('input_data')[0].style.display = "none";
-        pushDataToStorage();
-        test()
+        // pushDataToStorage();
+        // test()
     }
 }
 

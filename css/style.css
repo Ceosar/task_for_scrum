@@ -121,4 +121,31 @@ td {
   border: 1px solid black;
   background-color: white;
   text-align: center;
+}
+
+.main .list-of-users {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+.main .input_data__user {
+  margin: 15px auto;
+  padding: 20px;
+  width: 90%;
+  height: 200px;
+  border: 4px solid black;
+  border-radius: 15px;
+}
+.main .input_data__user .input_data__input__user {
+  border-radius: 10px;
+  border: 1px solid grey;
+}
+.main .input_data__user .btn-delete {
+  margin-top: 10%;
+  padding: 10px;
+  color: white;
+  background-color: rgb(202, 0, 0);
+  border-radius: 10px;
 }/*# sourceMappingURL=style.css.map */

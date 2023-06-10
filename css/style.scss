@@ -147,3 +147,40 @@ td {
     background-color: white;
     text-align: center;
 }
+
+
+// Users
+
+.main{
+    .list-of-users{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 20px;
+    }
+    
+    .input_data__user {
+        margin: 15px auto;
+        padding: 20px;
+        width: 90%;
+        height: 200px;
+        border: 4px solid black;
+        border-radius: 15px;
+
+        .input_data__input__user {
+            border-radius: 10px;
+            border: 1px solid grey;
+        }
+
+        .input_data__span {}
+
+        .btn-delete {
+            margin-top: 10%;
+            padding: 10px;
+            color: white;
+            background-color: rgb(202, 0, 0);
+            border-radius: 10px;
+        }
+    }
+}
