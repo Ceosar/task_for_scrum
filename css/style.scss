@@ -116,6 +116,16 @@ body {
                 border-radius: 10px;
             }
         }
+        .select-user{
+            margin-top: 20px;
+
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            #selectUsers{
+                margin-left: 20px;
+            }
+        }
     }
 }
 
@@ -146,6 +156,13 @@ td {
     border: 1px solid black;
     background-color: white;
     text-align: center;
+
+    .change-score-of-task{
+        padding: 10px;
+        color: white;
+        background-color: rgb(117, 117, 254);
+        border-radius: 10px;
+    }
 }
 
 
@@ -159,7 +176,7 @@ td {
         justify-content: center;
         gap: 20px;
     }
-    
+
     .input_data__user {
         margin: 15px auto;
         padding: 20px;

@@ -11,21 +11,19 @@ var btnDel = document.getElementById('btnDelUser');
 var inputName = document.getElementsByClassName('input_data__input__user');
 document.getElementById('btnAddUser').style.display = "block";
 
-var state = {
-    tasks: [],
-    users: [],
-    scores: []
+var stateUsers = {
+    users: []
 }
-console.log(state.users)
+console.log(stateUsers.users)
 
 function pushDataToStorage() {
-    console.log(state.users)
-    localStorage.setItem('state', JSON.stringify(state));
+    console.log(stateUsers.users)
+    localStorage.setItem('stateUsers', JSON.stringify(stateUsers));
 }
 
 
 function switchModal(toggle) {
-    console.log(state.users)
+    console.log(stateUsers.users)
     if (toggle) {
         inputName.value = '';
         // document.getElementById('table-task').style.display = "none";
@@ -45,7 +43,7 @@ function switchModal(toggle) {
 btnAdd.onclick = switchModal;
 
 function changeSwitchModal(id, toggle) {
-    console.log(state.users)
+    console.log(stateUsers.users)
     if (toggle) {
         // state.scores.forEach((element) => {
         //     if (element.task_id == id) {
@@ -65,7 +63,7 @@ function changeSwitchModal(id, toggle) {
         // getDataToStorage();
     }
     else {
-        console.log(state.users)
+        console.log(stateUsers.users)
         document.getElementById('input_id__span__user').innerHTML = '';
         document.getElementById('table-users').style.display = "block";
         document.getElementById('btnChangeUser').style.display = "none";
@@ -78,8 +76,10 @@ function changeSwitchModal(id, toggle) {
     }
 }
 
+var btnChangeUser = document.createElement('button');
+
 function renderTask(users) {
-    console.log(state.users)
+    console.log(stateUsers.users)
     var table = document.querySelector('#table-users tbody');
     table.innerHTML = ''
     for (let i = 0; i < users.length; i++) {
@@ -87,10 +87,10 @@ function renderTask(users) {
         var newName = document.createElement('td');
         var newFunction = document.createElement('td');
 
-        newFunction.innerHTML = `<button class="change-score-of-task" onclick = "editUser(\'${users[i].id}\')">Change</button>`
+        newFunction.innerHTML = `<button class="change-score-of-task" onclick = "editUser(\'${users[i].user_id}\')">Change</button>`
 
+        console.log(users[i].user_name)
         if (users[i].user_name) {
-            console.log(users[i].user_name)
             newName.textContent = users[i].user_name;
             newRow.appendChild(newName);
             newRow.appendChild(newFunction);
@@ -102,23 +102,23 @@ function renderTask(users) {
 }
 
 function init() {
-    console.log(state.users)
-    var stateFromStorage = localStorage.getItem('state');
+    console.log(stateUsers.users)
+    var stateFromStorage = localStorage.getItem('stateUsers');
     if(stateFromStorage){
-        // state = JSON.parse(stateFromStorage);
-        console.log(state)
+        stateUsers = JSON.parse(stateFromStorage);
+        console.log(stateUsers)
     }
     // getDataToStorage();
     // var tasks = state.tasks
     // var scores = state.scores
-    var users = state.users;
+    var users = stateUsers.users;
 
     renderTask(users);
 }
 init();
 
 function setUser(users, user_id, user_name, props) {
-    console.log(state.users)
+    console.log(stateUsers.users)
     found_id = -1;
     props = {
         user_id: user_id,
@@ -126,18 +126,18 @@ function setUser(users, user_id, user_name, props) {
     }
 
     users.forEach((element, index) => {
-        if (element.user_id == id) {
+        if (element.user_id == user_id) {
             found_id = index;
             console.log(users);
         }
     });
 
     if (found_id >=0) {
-        console.log(state.users)
+        console.log(stateUsers.users)
         users[found_id] = Object.assign(props);
         console.log(props)
     } else {
-        console.log(state.users)
+        console.log(stateUsers.users)
         users.push(Object.assign(props));
         pushDataToStorage();
         console.log(props)
@@ -167,17 +167,55 @@ function setUser(users, user_id, user_name, props) {
 
 var inputName = document.getElementsByClassName("input_data__input__user")[0];
 function addTask() {
-    console.log(state.users)
-    console.log(state)
+    console.log(stateUsers.users)
+    console.log(stateUsers)
     if (inputName.value) {
         console.log(inputName.value);
-        console.log(state.users, 'user' + (state.users), inputName.value)
-        setUser(state.users, 'user' + (state.users.length), inputName.value);
+        console.log(stateUsers.users, 'user' + (stateUsers.users.length), inputName.value)
+        setUser(stateUsers.users, 'user' + (stateUsers.users.length), inputName.value);
     }
 
-    // renderTask(state.users)
+    renderTask(stateUsers.users)
     inputName.value = ""
 
     switchModal(false)
 }
 btnSave.onclick = addTask;
+
+function editUser(id) {
+    stateUsers.users.forEach((element) => {
+        if (element.user_id == id) {
+            inputName.value = element.user_name;
+        }
+    });
+    changeSwitchModal(id, true);
+}
+
+function changeTaskInTable() {
+    if (inputName.value) {
+        document.getElementById('table-users').style.display = "block";
+        var id_user = document.getElementById('input_id__span__user').innerHTML;
+        setUser(stateUsers.users, id_user, inputName.value);
+        renderTask(stateUsers.users);
+        pushDataToStorage();
+
+        changeSwitchModal(null, false);
+    }
+    else {
+        alert("Введите имя пользователя!");
+    }
+}
+buttonChange.onclick = changeTaskInTable;
+
+function deleteTask() {
+    inputName.value = "";
+    document.getElementById('table-users').style.display = "block";
+    var id_user = document.getElementById('input_id__span__user').innerHTML;
+    console.log(id_user)
+    setUser(stateUsers.users, id_user, inputName.value);
+    renderTask(stateUsers.users)
+    pushDataToStorage();
+
+    changeSwitchModal(null, false);
+}
+btnDel.onclick = deleteTask;
