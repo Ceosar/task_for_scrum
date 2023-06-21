@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Голосование</title>
+    <link rel="stylesheet" href="/css/reset.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" /> -->
+</head>
+
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="header-logo">
+                <h2 class="header-logo__text">Scrum</h2>
+            </div>
+            <nav class="header-nav">
+                <a href="voting.html">Голосование</a>
+                <a href="users.html">Пользователи</a>
+                <a href="index.html">Задачи</a>
+            </nav>
+        </div>
+    </header>
+    <main class="main">
+        <div class="container">
+            <div class="input_data">
+                <span id="input_id__span"></span>
+                <span id="user_select"></span>
+                <span class="input_data__span">Название задачи: </span>
+                <b><span id="name_of_task__span"></span></b>
+                <!-- <input type="text" class="input_data__input"> -->
+                <span>Оцените задачу:</span>
+                <select name="" id="inputValue" class="choosing">
+                    <option value="1" class="person-choose">1</option>
+                    <option value="2" class="person-choose">2</option>
+                    <option value="3" class="person-choose">3</option>
+                    <option value="5" class="person-choose">5</option>
+                    <option value="8" class="person-choose">8</option>
+                    <option value="13" class="person-choose">13</option>
+                    <option value="20" class="person-choose">20</option>
+                    <option value="40" class="person-choose">40</option>
+                    <option value="100" class="person-choose">100</option>
+                </select>
+                <button id="btnDel" class="btn-delete">Удалить</button>
+                <div class="select-user">
+                    <span>Выберите пользователя:</span>
+                    <select name="" id="selectUsers" class="choosing">
+                    </select>
+                </div>
+            </div>
+            <div class="list-of-task">
+                <button id="btnAdd">Добавить</button>
+                <button id="btnSave">Сохранить</button>
+                <button id="btnChange">Проголосовать</button>
+                <table id="table-task">
+                    <thead>
+                        <tr>
+                            <th>Название задачи</th>
+                            <th>Оценка задачи</th>
+                            <th>Свойства</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+                <button id="resetBtn">Обновить</button>
+            </div>
+        </div>
+    </main>
+    <footer class="footer">
+        <div class="container">
+
+        </div>
+    </footer>
+
+    <script src="/js/voting.js"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script> -->
+</body>
+
+</html>

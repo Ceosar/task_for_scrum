@@ -1,8 +1,9 @@
 document.getElementsByClassName('input_data')[0].style.display = "none";
-// document.getElementById('table-task').style.display = "none";ta
 document.getElementById('btnSave').style.display = "none";
 document.getElementById('btnChange').style.display = "none";
 document.getElementById('btnDel').style.display = 'none';
+document.getElementsByClassName('select-user')[0].style.display = 'none';
+document.getElementsByClassName('scoreUsers')[0].style.display = 'none';
 
 var btnSave = document.getElementById('btnSave');
 var buttonChange = document.getElementById('btnChange');
@@ -10,42 +11,26 @@ var btnAdd = document.getElementById('btnAdd');
 var btnDel = document.getElementById('btnDel');
 
 document.getElementById('btnAdd').style.display = "block";
-// var stateFromStorage = localStorage.getItem('state');
-// stateFromStorage = JSON.parse(stateFromStorage);
-// console.log(stateFromStorage)
 
 var state = {
     tasks: [],
-    scores: []
-}
-var stateUsers = {
+    scores: [],
     users: []
 }
-
-// function test(){
-//     for(i = 1; i < stateFromStorage.tasks.length; i++){
-//         state.tasks.push(stateFromStorage.tasks[i])
-//         state.scores.push(stateFromStorage.scores[i])
-//     }
+// var stateUsers = {
+//     users: []
 // }
-
-console.log(state.tasks)
-console.log(state.scores)
 
 function pushDataToStorage() {
     localStorage.setItem('state', JSON.stringify(state));
 }
-
-// function getDataToStorage() {
-//     stateFromStorage = localStorage.getItem('state');
-// }
 
 var inputName = document.getElementsByClassName("input_data__input")[0];
 var inputValue = document.getElementById("inputValue");
 function addTask() {
     if (inputName.value) {
         setTask(state.tasks, inputName.value, 'task' + (state.tasks.length));
-        setScore(state.scores, 'task' + (state.tasks.length - 1), inputValue.value);
+        // setScore(state.scores, 'task' + (state.tasks.length - 1), inputValue.value);
     }
 
     renderTask(state.tasks, state.scores)
@@ -55,11 +40,12 @@ function addTask() {
 }
 btnSave.onclick = addTask;
 
-function setTask(tasks, name, id, props) {
+function setTask(tasks, name, id, value, props) {
     var found_id = -1;
     props = {
         id: id,
-        name: name
+        name: name,
+        value: value
     }
 
     tasks.forEach((element, index) => {
@@ -75,22 +61,6 @@ function setTask(tasks, name, id, props) {
         pushDataToStorage();
     }
 }
-
-// function setUser(users, id, name, color, props) {
-//     found_id = null;
-//     props = {
-//         id: '',
-//         name: '',
-//         color: ''
-//     }
-
-//     if (found_id) {
-//         users[found_id] = Object.assign(users[found_id], props);
-//     } else {
-//         users.push(Object.assign({ id: id, name: name, color: color }, props));
-//         console.log(users);
-//     }
-// }
 
 function setScore(scores, task_id, value, props) {
     var found_id = -1;
@@ -110,6 +80,7 @@ function setScore(scores, task_id, value, props) {
     }
     else {
         scores.push(Object.assign(props));
+        console.log('pushing');
         pushDataToStorage();
     }
 }
@@ -128,7 +99,7 @@ function changeTaskInTable() {
         document.getElementById('table-task').style.display = "block";
         var id_task = document.getElementById('input_id__span').innerHTML;
         setTask(state.tasks, inputName.value, id_task);
-        setScore(state.scores, id_task, inputValue.value);
+        // setScore(state.scores, id_task, inputValue.value);
         renderTask(state.tasks, state.scores)
         pushDataToStorage();
 
@@ -146,19 +117,20 @@ function renderTask(tasks, scores) {
     var table = document.querySelector('#table-task tbody');
     table.innerHTML = ''
     for (let i = 0; i < tasks.length; i++) {
+        // debugger
         var newRow = document.createElement('tr');
         var newName = document.createElement('td');
-        var newScore = document.createElement('td');
+        // var newScore = document.createElement('td');
         var newFunction = document.createElement('td');
 
         newFunction.innerHTML = `<button class="change-score-of-task" onclick = "editTask(\'${tasks[i].id}\')">Change</button>`
 
-        console.log(tasks[i].name)
         if (tasks[i].name) {
             newName.textContent = tasks[i].name;
-            newScore.textContent = scores[i].value;
+            // var score = 
+            // newScore.textContent = scores[i].value;
             newRow.appendChild(newName);
-            newRow.appendChild(newScore);
+            // newRow.appendChild(newScore);
             newRow.appendChild(newFunction);
             newFunction.appendChild(btnChange);
 
@@ -172,11 +144,19 @@ function init() {
     if(stateFromStorage){
         state = JSON.parse(stateFromStorage);
     }
-    // getDataToStorage();
+
     var tasks = state.tasks
     var scores = state.scores
 
+    // var stateUsersFromStorage = localStorage.getItem('stateUsers')
+    // if(stateUsersFromStorage){
+    //     stateUsers = JSON.parse(stateUsersFromStorage);
+    // }
+    
+    // 
     renderTask(tasks, scores);
+    // 
+    // renderUsersSelect();
 }
 init();
 
@@ -185,18 +165,14 @@ function switchModal(toggle) {
         var selectOption = Array.from(selectInput.options).find((opt) => opt.value == '1');
         selectOption.selected = true;
         inputName.value = '';
-        // document.getElementById('table-task').style.display = "none";
         document.getElementById('btnSave').style.display = "block";
         document.getElementById('btnAdd').style.display = "none";
         document.getElementsByClassName('input_data')[0].style.display = "block";
-        // getDataToStorage();
     } else {
         document.getElementById('table-task').style.display = "block";
         document.getElementById('btnSave').style.display = "none";
         document.getElementById('btnAdd').style.display = "block";
         document.getElementsByClassName('input_data')[0].style.display = "none";
-        // pushDataToStorage();
-        // test()
     }
 }
 btnAdd.onclick = switchModal;
@@ -218,8 +194,6 @@ function changeSwitchModal(id, toggle) {
         document.getElementById('btnAdd').style.display = "none";
         document.getElementById('btnDel').style.display = "block";
         document.getElementsByClassName('input_data')[0].style.display = "block";
-        // document.getElementById('table-task').style.display = "none";
-        // getDataToStorage();
     }
     else {
         document.getElementById('input_id__span').innerHTML = '';
@@ -229,8 +203,6 @@ function changeSwitchModal(id, toggle) {
         document.getElementById('btnAdd').style.display = "block";
         document.getElementById('btnDel').style.display = "none";
         document.getElementsByClassName('input_data')[0].style.display = "none";
-        // pushDataToStorage();
-        // test()
     }
 }
 
@@ -239,7 +211,7 @@ function deleteTask() {
     document.getElementById('table-task').style.display = "block";
     var id_task = document.getElementById('input_id__span').innerHTML;
     setTask(state.tasks, inputName.value, id_task);
-    setScore(state.scores, id_task, inputValue.value);
+    // setScore(state.scores, id_task, inputValue.value);
     renderTask(state.tasks, state.scores)
     pushDataToStorage();
 
@@ -247,18 +219,18 @@ function deleteTask() {
 }
 btnDel.onclick = deleteTask;
 
-function selectUser() {
-    var stateUsersFromStorage = localStorage.getItem('stateUsers')
-    stateUsers = JSON.parse(stateUsersFromStorage);
-    console.log(stateUsers);
-    for(i = 0; i < stateUsers.users.length; i++){
-        var newOption = document.createElement('option');
-        var selectName = document.getElementById('selectUsers');
-        selectName.appendChild(newOption);
-        if(stateUsers.users[i]){
-            newOption.innerHTML = stateUsers.users[i].user_name;
-            console.log(stateUsers.users[i].user_name);
-        }
-    }
-}
-selectUser();
+// function renderUsersSelect() {
+//     // var stateUsersFromStorage = localStorage.getItem('stateUsers')
+//     // stateUsers = JSON.parse(stateUsersFromStorage);
+//     for(i = 0; i < state.users.length; i++){
+//         var newOption = document.createElement('option');
+//         var selectName = document.getElementById('selectUsers');
+//         selectName.appendChild(newOption);
+//         if(state.users[i].user_name){
+//             newOption.innerHTML = state.users[i].user_name;
+//         }
+//         else{
+//             newOption.remove();
+//         }
+//     }
+// }

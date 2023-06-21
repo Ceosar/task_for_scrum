@@ -17,6 +17,7 @@
                 <h2 class="header-logo__text">Scrum</h2>
             </div>
             <nav class="header-nav">
+                <a href="voting.html">Голосование</a>
                 <a href="users.html">Пользователи</a>
                 <a href="index.html">Задачи</a>
             </nav>
@@ -28,18 +29,20 @@
                 <span id="input_id__span"></span>
                 <span class="input_data__span">Введите имя задачи: </span>
                 <input type="text" class="input_data__input">
-                <span>Оцените задачу:</span>
-                <select name="" id="inputValue" class="choosing">
-                    <option value="1" class="person-choose">1</option>
-                    <option value="2" class="person-choose">2</option>
-                    <option value="3" class="person-choose">3</option>
-                    <option value="5" class="person-choose">5</option>
-                    <option value="8" class="person-choose">8</option>
-                    <option value="13" class="person-choose">13</option>
-                    <option value="20" class="person-choose">20</option>
-                    <option value="40" class="person-choose">40</option>
-                    <option value="100" class="person-choose">100</option>
-                </select>
+                <div class="scoreUsers">
+                    <span>Оцените задачу:</span>
+                    <select name="" id="inputValue" class="choosing">
+                        <option value="1" class="person-choose">1</option>
+                        <option value="2" class="person-choose">2</option>
+                        <option value="3" class="person-choose">3</option>
+                        <option value="5" class="person-choose">5</option>
+                        <option value="8" class="person-choose">8</option>
+                        <option value="13" class="person-choose">13</option>
+                        <option value="20" class="person-choose">20</option>
+                        <option value="40" class="person-choose">40</option>
+                        <option value="100" class="person-choose">100</option>
+                    </select>
+                </div>
                 <button id="btnDel" class="btn-delete">Удалить</button>
             </div>
             <div class="list-of-task">
@@ -50,7 +53,7 @@
                     <thead>
                         <tr>
                             <th>Name of task</th>
-                            <th>Score of Task</th>
+                            <!-- <th>Score of Task</th> -->
                             <th>Function</th>
                         </tr>
                     </thead>
