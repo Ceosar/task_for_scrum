@@ -112,10 +112,41 @@ function setUser(users, user_id, user_name, props) {
     pushDataToStorage();
 }
 
+function setScore(scores, task_id, user_id, value, props) {
+    console.log(task_id)
+    console.log(user_id)
+    var found_id = -1;
+    props = {
+        task_id: task_id,
+        value: value,
+        user_id: user_id
+    }
+
+    scores.forEach((element, index) => {
+        if (element.user_id == user_id && element.task_id == task_id) {
+            found_id = index;
+        }
+    });
+
+    if (found_id >= 0) {
+        scores[found_id] = Object.assign(props);
+        console.log('no pushing')
+        pushDataToStorage();
+    }
+    else {
+        scores.push(Object.assign(props));
+        pushDataToStorage();
+        console.log('pushing')
+    }
+}
+
 var inputName = document.getElementsByClassName("input_data__input__user")[0];
 function addTask() {
     if (inputName.value) {
         setUser(state.users, 'user' + (state.users.length), inputName.value);
+        for(i = 0; i < state.tasks.length; i++){
+            setScore(state.scores, 'task' + i, 'user' + ((state.users.length) -1));
+        }
     }
 
     renderTask(state.users)

@@ -3,6 +3,7 @@ document.getElementById('btnSave').style.display = "none";
 document.getElementById('btnChange').style.display = "none";
 document.getElementById('btnDel').style.display = 'none';
 document.getElementById('btnAdd').style.display = 'none';
+document.getElementById('resetBtn').style.display = 'none'
 
 var btnSave = document.getElementById('btnSave');
 var buttonChange = document.getElementById('btnChange');
@@ -112,6 +113,8 @@ function changeTaskInTable() {
 }
 buttonChange.onclick = changeTaskInTable;
 
+var avgArray = [];
+
 var btnChange = document.createElement('button');
 function renderTask(tasks, scores) {
     var table = document.querySelector('#table-task tbody');
@@ -131,18 +134,20 @@ function renderTask(tasks, scores) {
         //     console.log(scores[i].value)
         // }
 
-        
         console.log(scores[i].user_id, userNow)
         if (scores[i].user_id == userNow) {
             //получаю название задачи по id
             tasks.forEach((element) => {
                 if (element.id == scores[i].task_id) {
                     newName.textContent = element.name;
+                    if(element.name == ''){
+                        console.log(scores[i].task_id)
+                    }
                 }
             })
 
             //нахожу средние значение каждой задач
-            var avgArray = [];
+            avgArray = [];
             scores.filter((elem) => {
                 if (elem.task_id == scores[i].task_id) {
                     avgArray.push(elem.value);
@@ -163,11 +168,15 @@ function renderTask(tasks, scores) {
             //     element.value;
             // })
             // newScore.textContent = scores[i].value;
-            if(isNaN(avg)){
-                newScore.textContent = '';
+            if (isNaN(avg)) {
+                newScore.textContent = 'Не все проголосовали!';
             }
-            else{
+            else {
                 newScore.textContent = avg.toFixed(1);
+            }
+
+            if(newName.textContent == ''){
+                continue
             }
             newRow.appendChild(newName);
             newRow.appendChild(newScore);
@@ -282,12 +291,12 @@ function init() {
             }
         }
     }
-    
+
     renderUsersSelect();
     // 
     renderTask(tasks, scores);
     // 
-    
+
     switchUsers()
 
     // state.users.forEach((element) => {
@@ -397,7 +406,7 @@ function switchUsers() {
 
 selectName.addEventListener('change', switchUsers);
 
-function resetList(){
+function resetList() {
     state.scores = []
     localStorage.setItem('state', JSON.stringify(state));
     location.reload();

@@ -31,6 +31,9 @@ function addTask() {
     if (inputName.value) {
         setTask(state.tasks, inputName.value, 'task' + (state.tasks.length));
         // setScore(state.scores, 'task' + (state.tasks.length - 1), inputValue.value);
+        for (i = 0; i < state.users.length; i++){
+            setScore(state.scores, 'task' + ((state.tasks.length) -1), 'user' + i);
+        }
     }
 
     renderTask(state.tasks, state.scores)
@@ -62,26 +65,31 @@ function setTask(tasks, name, id, value, props) {
     }
 }
 
-function setScore(scores, task_id, value, props) {
+function setScore(scores, task_id, user_id, value, props) {
+    console.log(task_id)
+    console.log(user_id)
     var found_id = -1;
     props = {
         task_id: task_id,
-        value: value
+        value: value,
+        user_id: user_id
     }
 
     scores.forEach((element, index) => {
-        if (element.task_id == task_id) {
+        if (element.user_id == user_id && element.task_id == task_id) {
             found_id = index;
         }
     });
 
     if (found_id >= 0) {
         scores[found_id] = Object.assign(props);
+        console.log('no pushing')
+        pushDataToStorage();
     }
     else {
         scores.push(Object.assign(props));
-        console.log('pushing');
         pushDataToStorage();
+        console.log('pushing')
     }
 }
 
@@ -141,7 +149,7 @@ function renderTask(tasks, scores) {
 
 function init() {
     var stateFromStorage = localStorage.getItem('state');
-    if(stateFromStorage){
+    if (stateFromStorage) {
         state = JSON.parse(stateFromStorage);
     }
 
@@ -152,7 +160,7 @@ function init() {
     // if(stateUsersFromStorage){
     //     stateUsers = JSON.parse(stateUsersFromStorage);
     // }
-    
+
     // 
     renderTask(tasks, scores);
     // 
