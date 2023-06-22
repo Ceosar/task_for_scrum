@@ -202,6 +202,7 @@ function changeSwitchModal(id, toggle) {
         document.getElementById('btnAdd').style.display = "none";
         document.getElementById('btnDel').style.display = "block";
         document.getElementsByClassName('input_data')[0].style.display = "block";
+        document.getElementById('table-task').style.display = "none";
     }
     else {
         document.getElementById('input_id__span').innerHTML = '';

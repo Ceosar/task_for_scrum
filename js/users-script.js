@@ -28,6 +28,7 @@ function switchModal(toggle) {
         document.getElementById('btnSaveUser').style.display = "block";
         document.getElementById('btnAddUser').style.display = "none";
         document.getElementsByClassName('input_data__user')[0].style.display = "block";
+        document.getElementById('table-users').style.display = "none";
     } else {
         document.getElementById('table-users').style.display = "block";
         document.getElementById('btnSaveUser').style.display = "none";
@@ -45,6 +46,7 @@ function changeSwitchModal(id, toggle) {
         document.getElementById('btnAddUser').style.display = "none";
         document.getElementById('btnDelUser').style.display = "block";
         document.getElementsByClassName('input_data__user')[0].style.display = "block";
+        document.getElementById('table-users').style.display = "none";
     }
     else {
         document.getElementById('input_id__span__user').innerHTML = '';

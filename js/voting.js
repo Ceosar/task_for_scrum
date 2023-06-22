@@ -11,8 +11,6 @@ var btnAdd = document.getElementById('btnAdd');
 var btnDel = document.getElementById('btnDel');
 var resetBtn = document.getElementById('resetBtn');
 
-// document.getElementById('btnAdd').style.display = "block";
-
 var state = {
     tasks: [],
     scores: [],
@@ -150,6 +148,7 @@ function renderTask(tasks, scores) {
             avgArray = [];
             scores.filter((elem) => {
                 if (elem.task_id == scores[i].task_id) {
+                    console.log(state.users, elem.user_id)
                     avgArray.push(elem.value);
                     console.log(avgArray)
                 }
@@ -348,6 +347,7 @@ function changeSwitchModal(id, name, toggle, user) {
         document.getElementsByClassName('input_data')[0].style.display = "block";
         document.getElementById('user_select').style.display = 'none';
         document.getElementById('user_select').innerHTML = user;
+        document.getElementById('table-task').style.display = "none";
     }
     else {
         document.getElementById('input_id__span').innerHTML = '';
@@ -392,7 +392,6 @@ function renderUsersSelect() {
 }
 
 function switchUsers() {
-
     var userNameNow = selectName.options[selectName.selectedIndex].text;
     console.log(userNameNow);
     state.users.forEach((element) => {
