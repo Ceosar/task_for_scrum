@@ -62,7 +62,7 @@ btnSave.onclick = addTask;
 //     }
 // }
 
-function setScore(scores, task_id, value, user_id, props) {
+function setScore(scores, task_id, user_id, value, props) {
     console.log(task_id)
     console.log(user_id)
     var found_id = -1;
@@ -102,11 +102,9 @@ function editTask(id, user) {
 }
 
 function changeTaskInTable() {
-    console.log(Number(inputValue.value))
     document.getElementById('table-task').style.display = "block";
     var id_task = document.getElementById('input_id__span').innerHTML;
-    var user_name = document.getElementById('user_select').innerHTML;
-    setScore(state.scores, id_task, Number(inputValue.value), user_name);
+    setScore(state.scores, id_task, userNow, Number(inputValue.value));
     renderTask(state.tasks, state.scores)
     pushDataToStorage();
 
@@ -124,7 +122,8 @@ function renderTask(tasks, scores) {
         var newScore = document.createElement('td');
         var newFunction = document.createElement('td');
 
-        newFunction.innerHTML = `<button class = "change-score-of-task" onclick = "editTask(\'${scores[i].task_id}\', \`${scores[i].user_id}\`)">Проголосовать</button>`
+        console.log(userNow)
+        newFunction.innerHTML = `<button class = "change-score-of-task" onclick = "editTask(\'${scores[i].task_id}\', \`${userNow}\`)">Проголосовать</button>`
 
         // console.log(scores[i].value, scores[i].task_id)
         // console.log(tasks[i].name, scores[i].task_id)
@@ -164,7 +163,12 @@ function renderTask(tasks, scores) {
             //     element.value;
             // })
             // newScore.textContent = scores[i].value;
-            newScore.textContent = avg.toFixed(1);
+            if(isNaN(avg)){
+                newScore.textContent = '';
+            }
+            else{
+                newScore.textContent = avg.toFixed(1);
+            }
             newRow.appendChild(newName);
             newRow.appendChild(newScore);
             newRow.appendChild(newFunction);
@@ -260,7 +264,7 @@ function init() {
                     for (l = 0; l < Math.pow(tasks.length, users.length); l++) {
                         try {
                             // console.log("value:" +  scores[l].value)
-                            // setScore(scores, `task${j}`, 1, `user${i}`);
+                            setScore(scores, `task${j}`, `user${i}`);
                             // console.log(scores[l].value)
                         }
                         catch (err) {
@@ -278,12 +282,12 @@ function init() {
             }
         }
     }
-
+    
+    renderUsersSelect();
     // 
     renderTask(tasks, scores);
     // 
-    renderUsersSelect();
-
+    
     switchUsers()
 
     // state.users.forEach((element) => {
@@ -352,7 +356,7 @@ function deleteTask() {
     document.getElementById('table-task').style.display = "block";
     var id_task = document.getElementById('input_id__span').innerHTML;
     setTask(state.tasks, inputName.value, id_task);
-    setScore(state.scores, id_task, inputValue.value, userNow);
+    setScore(state.scores, id_task, userNow, inputValue.value);
     renderTask(state.tasks, state.scores)
     pushDataToStorage();
 
