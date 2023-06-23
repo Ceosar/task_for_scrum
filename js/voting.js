@@ -122,7 +122,7 @@ function renderTask(tasks, scores) {
                 newScore.textContent = avg.toFixed(1);
             }
 
-            if(newName.textContent == ''){
+            if (newName.textContent == '') {
                 continue
             }
             newRow.appendChild(newName);

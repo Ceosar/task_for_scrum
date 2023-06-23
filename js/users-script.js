@@ -84,7 +84,7 @@ function renderTask(users) {
 
 function init() {
     var stateFromStorage = localStorage.getItem('state');
-    if(stateFromStorage){
+    if (stateFromStorage) {
         state = Object.assign(state, JSON.parse(stateFromStorage));
     }
     var users = state.users;
@@ -106,7 +106,7 @@ function setUser(users, user_id, user_name, props) {
         }
     });
 
-    if (found_id >=0) {
+    if (found_id >= 0) {
         users[found_id] = Object.assign(props);
     } else {
         users.push(Object.assign(props));
@@ -146,8 +146,8 @@ var inputName = document.getElementsByClassName("input_data__input__user")[0];
 function addTask() {
     if (inputName.value) {
         setUser(state.users, 'user' + (state.users.length), inputName.value);
-        for(i = 0; i < state.tasks.length; i++){
-            setScore(state.scores, 'task' + i, 'user' + ((state.users.length) -1));
+        for (i = 0; i < state.tasks.length; i++) {
+            setScore(state.scores, 'task' + i, 'user' + ((state.users.length) - 1));
         }
     }
 
@@ -173,8 +173,6 @@ function changeTaskInTable() {
         var id_user = document.getElementById('input_id__span__user').innerHTML;
         setUser(state.users, id_user, inputName.value);
         renderTask(state.users);
-        // pushDataToStorage();
-
         changeSwitchModal(null, false);
     }
     else {
@@ -190,7 +188,6 @@ function deleteTask() {
     console.log(id_user)
     setUser(state.users, id_user, inputName.value);
     renderTask(state.users)
-    // pushDataToStorage();
 
     changeSwitchModal(null, false);
 }

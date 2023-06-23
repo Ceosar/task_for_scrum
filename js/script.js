@@ -17,9 +17,6 @@ var state = {
     scores: [],
     users: []
 }
-// var stateUsers = {
-//     users: []
-// }
 
 function pushDataToStorage() {
     localStorage.setItem('state', JSON.stringify(state));
@@ -31,8 +28,8 @@ function addTask() {
     if (inputName.value) {
         setTask(state.tasks, inputName.value, 'task' + (state.tasks.length));
         // setScore(state.scores, 'task' + (state.tasks.length - 1), inputValue.value);
-        for (i = 0; i < state.users.length; i++){
-            setScore(state.scores, 'task' + ((state.tasks.length) -1), 'user' + i);
+        for (i = 0; i < state.users.length; i++) {
+            setScore(state.scores, 'task' + ((state.tasks.length) - 1), 'user' + i);
         }
     }
 
@@ -107,7 +104,6 @@ function changeTaskInTable() {
         document.getElementById('table-task').style.display = "block";
         var id_task = document.getElementById('input_id__span').innerHTML;
         setTask(state.tasks, inputName.value, id_task);
-        // setScore(state.scores, id_task, inputValue.value);
         renderTask(state.tasks, state.scores)
         pushDataToStorage();
 
@@ -125,20 +121,15 @@ function renderTask(tasks, scores) {
     var table = document.querySelector('#table-task tbody');
     table.innerHTML = ''
     for (let i = 0; i < tasks.length; i++) {
-        // debugger
         var newRow = document.createElement('tr');
         var newName = document.createElement('td');
-        // var newScore = document.createElement('td');
         var newFunction = document.createElement('td');
 
         newFunction.innerHTML = `<button class="change-score-of-task" onclick = "editTask(\'${tasks[i].id}\')">Change</button>`
 
         if (tasks[i].name) {
             newName.textContent = tasks[i].name;
-            // var score = 
-            // newScore.textContent = scores[i].value;
             newRow.appendChild(newName);
-            // newRow.appendChild(newScore);
             newRow.appendChild(newFunction);
             newFunction.appendChild(btnChange);
 
@@ -156,15 +147,7 @@ function init() {
     var tasks = state.tasks
     var scores = state.scores
 
-    // var stateUsersFromStorage = localStorage.getItem('stateUsers')
-    // if(stateUsersFromStorage){
-    //     stateUsers = JSON.parse(stateUsersFromStorage);
-    // }
-
-    // 
     renderTask(tasks, scores);
-    // 
-    // renderUsersSelect();
 }
 init();
 
@@ -220,26 +203,9 @@ function deleteTask() {
     document.getElementById('table-task').style.display = "block";
     var id_task = document.getElementById('input_id__span').innerHTML;
     setTask(state.tasks, inputName.value, id_task);
-    // setScore(state.scores, id_task, inputValue.value);
     renderTask(state.tasks, state.scores)
     pushDataToStorage();
 
     changeSwitchModal(null, false);
 }
 btnDel.onclick = deleteTask;
-
-// function renderUsersSelect() {
-//     // var stateUsersFromStorage = localStorage.getItem('stateUsers')
-//     // stateUsers = JSON.parse(stateUsersFromStorage);
-//     for(i = 0; i < state.users.length; i++){
-//         var newOption = document.createElement('option');
-//         var selectName = document.getElementById('selectUsers');
-//         selectName.appendChild(newOption);
-//         if(state.users[i].user_name){
-//             newOption.innerHTML = state.users[i].user_name;
-//         }
-//         else{
-//             newOption.remove();
-//         }
-//     }
-// }
