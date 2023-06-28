@@ -2,6 +2,7 @@ document.getElementsByClassName('input_data__user')[0].style.display = "none";
 document.getElementById('btnSaveUser').style.display = "none";
 document.getElementById('btnChangeUser').style.display = "none";
 document.getElementById('btnDelUser').style.display = 'none';
+document.getElementById('btnAddUser').style.display = "block";
 
 var btnSave = document.getElementById('btnSaveUser');
 var buttonChange = document.getElementById('btnChangeUser');
@@ -9,7 +10,6 @@ var btnAdd = document.getElementById('btnAddUser');
 var btnDel = document.getElementById('btnDelUser');
 
 var inputName = document.getElementsByClassName('input_data__input__user');
-document.getElementById('btnAddUser').style.display = "block";
 
 var state = {
     tasks: [],
@@ -17,51 +17,70 @@ var state = {
     users: []
 }
 
+/**
+ * Функция отправляет данные в LocalStorage
+ */
 function pushDataToStorage() {
     localStorage.setItem('state', JSON.stringify(state));
 }
 
-
-function switchModal(toggle) {
+/**
+ * Функция выключает модульное окно
+ * @param {*} toggle - переключатель
+ * @param {*} _btnSave - кнопка "Сохранить"
+ * @param {*} _btnAdd - кнопка "Добавить"
+ */
+function switchModal(toggle, _btnSave, _btnAdd) {
     if (toggle) {
         inputName.value = '';
-        document.getElementById('btnSaveUser').style.display = "block";
-        document.getElementById('btnAddUser').style.display = "none";
         document.getElementsByClassName('input_data__user')[0].style.display = "block";
         document.getElementById('table-users').style.display = "none";
+        btnSave.style.display = "block";
+        btnAdd.style.display = "none";
     } else {
         document.getElementById('table-users').style.display = "block";
-        document.getElementById('btnSaveUser').style.display = "none";
-        document.getElementById('btnAddUser').style.display = "block";
         document.getElementsByClassName('input_data__user')[0].style.display = "none";
+        btnSave.style.display = "none";
+        btnAdd.style.display = "block";
     }
 }
-btnAdd.onclick = switchModal;
 
-function changeSwitchModal(id, toggle) {
+/**
+ * Функция переключает модульное окно и таблицу
+ * @param {*} id - ID пользоватея
+ * @param {*} toggle - переключатель
+ * @param {*} _buttonChange - кнопка "Изменить"
+ * @param {*} _btnAdd - кнопка "Добавить"
+ * @param {*} _btnDel - кнопка "Удалить"
+ * @param {*} _btnSave - кнопка "Сохранить"
+ */
+function changeSwitchModal(id, toggle, _buttonChange, _btnAdd, _btnDel, _btnSave) {
     if (toggle) {
         document.getElementById('input_id__span__user').innerHTML = id;
         document.getElementById('input_id__span__user').style.display = "none";
-        document.getElementById('btnChangeUser').style.display = "block";
-        document.getElementById('btnAddUser').style.display = "none";
-        document.getElementById('btnDelUser').style.display = "block";
         document.getElementsByClassName('input_data__user')[0].style.display = "block";
         document.getElementById('table-users').style.display = "none";
+        buttonChange.style.display = "block";
+        btnAdd.style.display = "none";
+        btnDel.style.display = "block";
     }
     else {
         document.getElementById('input_id__span__user').innerHTML = '';
         document.getElementById('table-users').style.display = "block";
-        document.getElementById('btnChangeUser').style.display = "none";
-        document.getElementById('btnSaveUser').style.display = "none";
-        document.getElementById('btnAddUser').style.display = "block";
-        document.getElementById('btnDelUser').style.display = "none";
         document.getElementsByClassName('input_data__user')[0].style.display = "none";
+        buttonChange.style.display = "none";
+        btnAdd.style.display = "block";
+        btnDel.style.display = "none";
+        btnSave.style.display = "none";
     }
 }
 
 var btnChangeUser = document.createElement('button');
-
-function renderTask(users) {
+/**
+ * Функция отрисовки таблицы пользователей
+ * @param {*} users - массив пользователей
+ */
+function renderUser(users) {
     var table = document.querySelector('#table-users tbody');
     table.innerHTML = ''
     for (let i = 0; i < users.length; i++) {
@@ -82,17 +101,13 @@ function renderTask(users) {
     }
 }
 
-function init() {
-    var stateFromStorage = localStorage.getItem('state');
-    if (stateFromStorage) {
-        state = Object.assign(state, JSON.parse(stateFromStorage));
-    }
-    var users = state.users;
-
-    renderTask(users);
-}
-init();
-
+/**
+ * Сеттер для users
+ * @param {*} users - массив users
+ * @param {*} user_id - ID задачи
+ * @param {*} user_name  - ID пользователя
+ * @param {*} props - пропс
+ */
 function setUser(users, user_id, user_name, props) {
     found_id = -1;
     props = {
@@ -114,9 +129,15 @@ function setUser(users, user_id, user_name, props) {
     pushDataToStorage();
 }
 
+/**
+ * Сеттер для scores
+ * @param {*} scores - массив scores
+ * @param {*} task_id - ID задачи
+ * @param {*} user_id  - ID пользователя
+ * @param {*} value - голос пользователя
+ * @param {*} props - пропс
+ */
 function setScore(scores, task_id, user_id, value, props) {
-    console.log(task_id)
-    console.log(user_id)
     var found_id = -1;
     props = {
         task_id: task_id,
@@ -132,18 +153,19 @@ function setScore(scores, task_id, user_id, value, props) {
 
     if (found_id >= 0) {
         scores[found_id] = Object.assign(props);
-        console.log('no pushing')
         pushDataToStorage();
     }
     else {
         scores.push(Object.assign(props));
         pushDataToStorage();
-        console.log('pushing')
     }
 }
 
 var inputName = document.getElementsByClassName("input_data__input__user")[0];
-function addTask() {
+/**
+ * Функция добавления пользователя
+ */
+function addUser() {
     if (inputName.value) {
         setUser(state.users, 'user' + (state.users.length), inputName.value);
         for (i = 0; i < state.tasks.length; i++) {
@@ -151,13 +173,16 @@ function addTask() {
         }
     }
 
-    renderTask(state.users)
+    renderUser(state.users)
     inputName.value = ""
 
     switchModal(false)
 }
-btnSave.onclick = addTask;
 
+/**
+ * Функция изменения имени пользователя (повторно)
+ * @param {*} id - ID пользователя
+ */
 function editUser(id) {
     state.users.forEach((element) => {
         if (element.user_id == id) {
@@ -167,28 +192,51 @@ function editUser(id) {
     changeSwitchModal(id, true);
 }
 
-function changeTaskInTable() {
+/**
+ * Изменение пользователя
+ */
+function changeUserInTable() {
     if (inputName.value) {
         document.getElementById('table-users').style.display = "block";
         var id_user = document.getElementById('input_id__span__user').innerHTML;
         setUser(state.users, id_user, inputName.value);
-        renderTask(state.users);
+        renderUser(state.users);
         changeSwitchModal(null, false);
     }
     else {
         alert("Введите имя пользователя!");
     }
 }
-buttonChange.onclick = changeTaskInTable;
 
-function deleteTask() {
+/**
+ * Функция удаления пользователя
+ */
+function deleteUser() {
     inputName.value = "";
     document.getElementById('table-users').style.display = "block";
     var id_user = document.getElementById('input_id__span__user').innerHTML;
-    console.log(id_user)
     setUser(state.users, id_user, inputName.value);
-    renderTask(state.users)
+    renderUser(state.users)
 
     changeSwitchModal(null, false);
 }
-btnDel.onclick = deleteTask;
+
+/**
+ * Главная функция
+ */
+function init() {
+    btnAdd.onclick = switchModal;
+    btnSave.onclick = addUser;
+    buttonChange.onclick = changeUserInTable;
+    btnDel.onclick = deleteUser;
+
+
+    var stateFromStorage = localStorage.getItem('state');
+    if (stateFromStorage) {
+        state = Object.assign(state, JSON.parse(stateFromStorage));
+    }
+    var users = state.users;
+
+    renderUser(users);
+}
+init();

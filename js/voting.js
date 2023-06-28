@@ -1,15 +1,7 @@
 document.getElementsByClassName('input_data')[0].style.display = "none";
-document.getElementById('btnSave').style.display = "none";
 document.getElementById('btnChange').style.display = "none";
-document.getElementById('btnDel').style.display = 'none';
-document.getElementById('btnAdd').style.display = 'none';
-document.getElementById('resetBtn').style.display = 'none'
 
-var btnSave = document.getElementById('btnSave');
 var buttonChange = document.getElementById('btnChange');
-var btnAdd = document.getElementById('btnAdd');
-var btnDel = document.getElementById('btnDel');
-var resetBtn = document.getElementById('resetBtn');
 
 var state = {
     tasks: [],
@@ -17,24 +9,21 @@ var state = {
     users: []
 }
 
+/**
+ * Функция отправляет данные в LocalStorage
+ */
 function pushDataToStorage() {
     localStorage.setItem('state', JSON.stringify(state));
 }
 
-var inputName = document.getElementsByClassName("input_data__input")[0];
-var inputValue = document.getElementById("inputValue");
-function addTask() {
-    if (inputName.value) {
-        setScore(state.scores, 'task' + (state.tasks.length - 1), inputValue.value);
-    }
-
-    renderTask(state.scores)
-    inputName.value = ""
-
-    switchModal(false)
-}
-btnSave.onclick = addTask;
-
+/**
+ * Сеттер для scores
+ * @param {*} scores - массив scores
+ * @param {*} task_id - ID задачи
+ * @param {*} user_id  - ID пользователя
+ * @param {*} value - голос пользователя
+ * @param {*} props - пропс
+ */
 function setScore(scores, task_id, user_id, value, props) {
     var found_id = -1;
     props = {
@@ -59,7 +48,12 @@ function setScore(scores, task_id, user_id, value, props) {
     }
 }
 
-function editTask(id, user) {
+/**
+ * Функция повторного голосования
+ * @param {*} id - ID пользователя
+ * @param {*} user - текущий (выбранный) пользователь
+ */
+function editScore(id, user) {
     var name;
     state.tasks.forEach((element) => {
         if (element.id == id) {
@@ -69,7 +63,11 @@ function editTask(id, user) {
     changeSwitchModal(id, name, true, user);
 }
 
-function changeTaskInTable() {
+var inputValue = document.getElementById("inputValue");
+/**
+ * Изменение очков в таблице
+ */
+function changeScoreInTable() {
     document.getElementById('table-task').style.display = "block";
     var id_task = document.getElementById('input_id__span').innerHTML;
     setScore(state.scores, id_task, userNow, Number(inputValue.value));
@@ -78,11 +76,14 @@ function changeTaskInTable() {
 
     changeSwitchModal(null, null, false);
 }
-buttonChange.onclick = changeTaskInTable;
 
 var avgArray = [];
-
 var btnChange = document.createElement('button');
+/**
+ * Функция отрисовки таблицы
+ * @param {*} tasks - массив tasks
+ * @param {*} scores - массив scores
+ */
 function renderTask(tasks, scores) {
     var table = document.querySelector('#table-task tbody');
     table.innerHTML = ''
@@ -92,7 +93,7 @@ function renderTask(tasks, scores) {
         var newScore = document.createElement('td');
         var newFunction = document.createElement('td');
 
-        newFunction.innerHTML = `<button class = "change-score-of-task" onclick = "editTask(\'${scores[i].task_id}\', \`${userNow}\`)">Проголосовать</button>`
+        newFunction.innerHTML = `<button class = "change-score-of-task" onclick = "editScore(\'${scores[i].task_id}\', \`${userNow}\`)">Проголосовать</button>`
 
         if (scores[i].user_id == userNow) {
             //получаю название задачи по id
@@ -136,9 +137,80 @@ function renderTask(tasks, scores) {
     }
 }
 
-var toggleInit;
+/**
+ * Функция переключает модульное окно и таблицу
+ * @param {*} id - ID задачи
+ * @param {*} name - название задачи
+ * @param {*} toggle - переключатель
+ * @param {*} user - ID пользователя
+ * @param {*} _btnChange - кнопка "Проголосовать"
+ */
+function changeSwitchModal(id, name, toggle, user, _btnChange) {
+    if (toggle) {
+        state.scores.forEach((element) => {
+            if (element.task_id == id) {
+                var selectOption = Array.from(inputValue.options).find((opt) => opt.value == element.value);
+                if (selectOption) {
+                    selectOption.selected = true;
+                }
+            }
+        });
+        document.getElementsByClassName('input_data')[0].style.display = "block";
+        document.getElementById('input_id__span').innerHTML = id;
+        document.getElementById('input_id__span').style.display = "none";
+        document.getElementById('name_of_task__span').innerHTML = name;
+        document.getElementById('user_select').style.display = 'none';
+        document.getElementById('user_select').innerHTML = user;
+        document.getElementById('table-task').style.display = "none";
+        buttonChange.style.display = "block";
+    }
+    else {
+        document.getElementById('input_id__span').innerHTML = '';
+        document.getElementById('table-task').style.display = "block";
+        document.getElementsByClassName('input_data')[0].style.display = "none";
+        buttonChange.style.display = "none";
+    }
+}
+
 var selectName = document.getElementById('selectUsers');
+/**
+ * Функция отрисовки пользователей в меню выбора
+ */
+function renderUsersSelect() {
+    for (i = 0; i < state.users.length; i++) {
+        var newOption = document.createElement('option');
+        selectName.appendChild(newOption);
+        if (state.users[i].user_name) {
+            newOption.innerHTML = state.users[i].user_name;
+        }
+        else {
+            newOption.remove();
+        }
+    }
+}
+
+var userNow;
+/**
+ * Функция смены пользователя
+ */
+function switchUsers() {
+    var userNameNow = selectName.options[selectName.selectedIndex].text;
+    state.users.forEach((element) => {
+        if (element.user_name == userNameNow) {
+            userNow = element.user_id;
+        }
+    })
+    renderTask(state.tasks, state.scores, userNow);
+}
+
+var toggleInit;
+/**
+ * Главная функция
+ */
 function init() {
+    buttonChange.onclick = changeScoreInTable;
+    selectName.addEventListener('change', switchUsers);
+
     var stateFromStorage = localStorage.getItem('state');
     if (stateFromStorage) {
         state = JSON.parse(stateFromStorage);
@@ -171,98 +243,3 @@ function init() {
     switchUsers()
 }
 init();
-
-function switchModal(toggle) {
-    if (toggle) {
-        var selectOption = Array.from(selectInput.options).find((opt) => opt.value == '1');
-        selectOption.selected = true;
-        inputName.value = '';
-        document.getElementById('btnSave').style.display = "block";
-        document.getElementById('btnAdd').style.display = "none";
-        document.getElementsByClassName('input_data')[0].style.display = "block";
-    } else {
-        document.getElementById('table-task').style.display = "block";
-        document.getElementById('btnSave').style.display = "none";
-        document.getElementById('btnAdd').style.display = "block";
-        document.getElementsByClassName('input_data')[0].style.display = "none";
-    }
-}
-btnAdd.onclick = switchModal;
-
-var selectInput = document.getElementById('inputValue');
-function changeSwitchModal(id, name, toggle, user) {
-    if (toggle) {
-        state.scores.forEach((element) => {
-            if (element.task_id == id) {
-                var selectOption = Array.from(selectInput.options).find((opt) => opt.value == element.value);
-                if (selectOption) {
-                    selectOption.selected = true;
-                }
-            }
-        });
-        document.getElementById('input_id__span').innerHTML = id;
-        document.getElementById('input_id__span').style.display = "none";
-        document.getElementById('name_of_task__span').innerHTML = name;
-        document.getElementById('btnChange').style.display = "block";
-        document.getElementById('btnAdd').style.display = "none";
-        document.getElementById('btnDel').style.display = "none";
-        document.getElementsByClassName('input_data')[0].style.display = "block";
-        document.getElementById('user_select').style.display = 'none';
-        document.getElementById('user_select').innerHTML = user;
-        document.getElementById('table-task').style.display = "none";
-    }
-    else {
-        document.getElementById('input_id__span').innerHTML = '';
-        document.getElementById('table-task').style.display = "block";
-        document.getElementById('btnChange').style.display = "none";
-        document.getElementById('btnSave').style.display = "none";
-        document.getElementById('btnDel').style.display = "none";
-        document.getElementsByClassName('input_data')[0].style.display = "none";
-    }
-}
-
-function deleteTask() {
-    inputName.value = "";
-    document.getElementById('table-task').style.display = "block";
-    var id_task = document.getElementById('input_id__span').innerHTML;
-    setTask(state.tasks, inputName.value, id_task);
-    setScore(state.scores, id_task, userNow, inputValue.value);
-    renderTask(state.tasks, state.scores)
-    pushDataToStorage();
-
-    changeSwitchModal(null, false);
-}
-btnDel.onclick = deleteTask;
-
-var userNow;
-function renderUsersSelect() {
-    for (i = 0; i < state.users.length; i++) {
-        var newOption = document.createElement('option');
-        selectName.appendChild(newOption);
-        if (state.users[i].user_name) {
-            newOption.innerHTML = state.users[i].user_name;
-        }
-        else {
-            newOption.remove();
-        }
-    }
-}
-
-function switchUsers() {
-    var userNameNow = selectName.options[selectName.selectedIndex].text;
-    state.users.forEach((element) => {
-        if (element.user_name == userNameNow) {
-            userNow = element.user_id;
-        }
-    })
-    renderTask(state.tasks, state.scores, userNow);
-}
-
-selectName.addEventListener('change', switchUsers);
-
-function resetList() {
-    state.scores = []
-    localStorage.setItem('state', JSON.stringify(state));
-    location.reload();
-}
-resetBtn.onclick = resetList;

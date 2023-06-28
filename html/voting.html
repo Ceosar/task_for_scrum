@@ -7,7 +7,6 @@
     <title>Голосование</title>
     <link rel="stylesheet" href="/css/reset.css">
     <link rel="stylesheet" href="/css/style.css">
-    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" /> -->
 </head>
 
 <body>
@@ -30,7 +29,6 @@
                 <span id="user_select"></span>
                 <span class="input_data__span">Название задачи: </span>
                 <b><span id="name_of_task__span"></span></b>
-                <!-- <input type="text" class="input_data__input"> -->
                 <span>Оцените задачу:</span>
                 <select name="" id="inputValue" class="choosing">
                     <option value="1" class="person-choose">1</option>
@@ -43,7 +41,6 @@
                     <option value="40" class="person-choose">40</option>
                     <option value="100" class="person-choose">100</option>
                 </select>
-                <button id="btnDel" class="btn-delete">Удалить</button>
                 <div class="select-user">
                     <span>Выберите пользователя:</span>
                     <select name="" id="selectUsers" class="choosing">
@@ -51,8 +48,7 @@
                 </div>
             </div>
             <div class="list-of-task">
-                <button id="btnAdd">Добавить</button>
-                <button id="btnSave">Сохранить</button>
+                <!-- <button id="btnSave">Сохранить</button> -->
                 <button class = "change-score-of-task" id="btnChange">Проголосовать</button>
                 <table id="table-task">
                     <thead>
@@ -64,7 +60,6 @@
                     </thead>
                     <tbody></tbody>
                 </table>
-                <button id="resetBtn">Обновить</button>
             </div>
         </div>
     </main>
@@ -75,7 +70,6 @@
     </footer>
 
     <script src="/js/voting.js"></script>
-    <!-- <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script> -->
 </body>
 
 </html>
