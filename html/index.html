@@ -30,7 +30,7 @@
                 <span id="input_id__span"></span>
                 <span class="input_data__span">Введите имя задачи: </span>
                 <input type="text" class="input_data__input">
-                <div class="scoreUsers">
+                <div hidden class="scoreUsers">
                     <span>Оцените задачу:</span>
                     <select name="" id="inputValue" class="choosing">
                         <option value="1" class="person-choose">1</option>
@@ -48,8 +48,8 @@
             </div>
             <div class="list-of-task">
                 <button id="btnAdd">Добавить</button>
-                <button id="btnSave">Сохранить</button>
-                <button id="btnChange">Изменить</button>
+                <button hidden id="btnSave">Сохранить</button>
+                <button hidden id="btnChange">Изменить</button>
                 <table id="table-task">
                     <thead>
                         <tr>
@@ -61,11 +61,11 @@
                     <tbody></tbody>
                 </table>
             </div>
-            <div class="select-user">
+            <!-- <div hidden class="select-user">
                 <span>Выберите пользователя:</span>
                 <select name="" id="selectUsers" class="choosing">
                 </select>
-            </div>
+            </div> -->
         </div>
     </main>
 

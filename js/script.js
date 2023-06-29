@@ -1,16 +1,10 @@
-document.getElementsByClassName("input_data")[0].style.display = "none";
-document.getElementsByClassName("select-user")[0].style.display = "none";
-document.getElementsByClassName("scoreUsers")[0].style.display = "none";
+// document.getElementsByClassName("input_data")[0].style.display = "none";
+// document.getElementsByClassName("select-user")[0].style.display = "none";
+// document.getElementsByClassName("scoreUsers")[0].style.display = "none";
 
-var btnSave = document.getElementById("btnSave");
-var buttonChange = document.getElementById("btnChange");
-var btnAdd = document.getElementById("btnAdd");
-var btnDel = document.getElementById("btnDel");
-
-btnSave.style.display = "none";
-document.getElementById("btnChange").style.display = "none";
-document.getElementById("btnDel").style.display = "none";
-document.getElementById("btnAdd").style.display = "block";
+// document.getElementById("btnChange").style.display = "none";
+// document.getElementById("btnDel").style.display = "none";
+// document.getElementById("btnAdd").style.display = "block";
 
 var stateManager = {
     privates: {
@@ -20,25 +14,62 @@ var stateManager = {
             users: [],
         },
     },
-    syncStorage: function () {},
+    syncStorage: function () {
+        localStorage.setItem("state", JSON.stringify(this.privates.state));
+    },
     getScores: function () {
         return this.privates.state.scores;
     },
     getTasks: function () {
         return this.privates.state.tasks;
     },
-    changeTask: function () {
+    addTask: function (value) {
+        if (value) {
+            setTask(
+                this.privates.state.tasks,
+                value,
+                "task" + this.privates.state.tasks.length
+            );
+            for (var i = 0; i < this.privates.state.users.length; i++) {
+                setScore(
+                    this.privates.state.scores,
+                    "task" + (this.privates.state.tasks.length - 1),
+                    "user" + i
+                );
+            }
+            this.syncStorage();
+        }
+    },
+    changeTask: function (id) {
+        var tasks = this.privates.state.tasks;
+        for (var i = 0; i < tasks.length; i++) {
+            if (tasks[i].id == id) {
+                tasks[i].name = name;
+                break;
+            }
+        }
         this.syncStorage();
     },
 };
 
-stateManager.changeTask();
+/**
+ * Функция изменения задачи (повторно)
+ * @param {*} id - ID пользователя
+ */
+function editTask(id) {
+    state.tasks.forEach((element) => {
+        if (element.id == id) {
+            inputName.value = element.name;
+        }
+    });
+    changeSwitchModal(id, true);
+}
 
-var state = {
-    tasks: [],
-    scores: [],
-    users: [],
-};
+// var state = {
+//     tasks: [],
+//     scores: [],
+//     users: [],
+// };
 
 /**
  * Функция отправляет данные в LocalStorage
@@ -51,18 +82,18 @@ var inputName = document.getElementsByClassName("input_data__input")[0];
 /**
  * Функция добавления задачи
  */
-function addTask(value) {
-    if (value) {
-        setTask(state.tasks, value, "task" + state.tasks.length);
-        for (i = 0; i < state.users.length; i++) {
-            setScore(
-                state.scores,
-                "task" + (state.tasks.length - 1),
-                "user" + i
-            );
-        }
-    }
-}
+// function addTask(value) {
+//     if (value) {
+//         setTask(state.tasks, value, "task" + state.tasks.length);
+//         for (i = 0; i < state.users.length; i++) {
+//             setScore(
+//                 state.scores,
+//                 "task" + (state.tasks.length - 1),
+//                 "user" + i
+//             );
+//         }
+//     }
+// }
 
 /**
  * Сеттер для tasks
@@ -126,19 +157,6 @@ function setScore(scores, task_id, user_id, value, props) {
 }
 
 /**
- * Функция изменения задачи (повторно)
- * @param {*} id - ID пользователя
- */
-function editTask(id) {
-    state.tasks.forEach((element) => {
-        if (element.id == id) {
-            inputName.value = element.name;
-        }
-    });
-    changeSwitchModal(id, true);
-}
-
-/**
  * Изменение названия задчи в таблице
  */
 function changeTaskInTable() {
@@ -196,6 +214,7 @@ function switchModal(toggle, _btnSave, _btnAdd) {
         inputName.value = "";
         document.getElementsByClassName("input_data")[0].style.display =
             "block";
+        document.getElementById("table-task").style.display = "none";
         btnSave.style.display = "block";
         btnAdd.style.display = "none";
     } else {
@@ -273,24 +292,42 @@ function deleteTask() {
  * Главная функция
  */
 function init() {
-    btnSave.onclick = function handleAdd() {
-        stateManager.addTask(inputName.value);
+    var btnSave = document.getElementById("btnSave");
+    var buttonChange = document.getElementById("btnChange");
+    var btnAdd = document.getElementById("btnAdd");
+    var btnDel = document.getElementById("btnDel");
 
-        inputName.value = "";
-        renderTask(state.tasks);
-        switchModal(false);
-    };
-
-    buttonChange.onclick = changeTaskInTable;
-    btnAdd.onclick = switchModal.bind();
-    btnDel.onclick = deleteTask;
+    btnSave.style.display = "none";
+    buttonChange.style.display = "none";
+    btnDel.style.display = "none";
 
     var stateFromStorage = localStorage.getItem("state");
     if (stateFromStorage) {
         state = JSON.parse(stateFromStorage);
+        stateManager.privates.state = state;
+    } else {
+        stateManager.privates.state = {
+            tasks: [],
+            scores: [],
+            users: [],
+        };
     }
 
-    var tasks = state.tasks;
+    // stateManager.changeTask();
+
+    btnSave.onclick = function handleAdd() {
+        stateManager.addTask(inputName.value);
+
+        inputName.value = "";
+        renderTask(stateManager.getTasks());
+        switchModal(false);
+    };
+
+    buttonChange.onclick = changeTaskInTable.bind();
+    btnAdd.onclick = switchModal.bind();
+    btnDel.onclick = deleteTask;
+
+    var tasks = stateManager.getTasks();
 
     renderTask(tasks);
 }
