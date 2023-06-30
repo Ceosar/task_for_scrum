@@ -1,3 +1,8 @@
+var btnSave = document.getElementById("btnSave");
+var buttonChange = document.getElementById("btnChange");
+var btnAdd = document.getElementById("btnAdd");
+var btnDel = document.getElementById("btnDel");
+
 // document.getElementsByClassName("input_data")[0].style.display = "none";
 // document.getElementsByClassName("select-user")[0].style.display = "none";
 // document.getElementsByClassName("scoreUsers")[0].style.display = "none";
@@ -57,7 +62,7 @@ var stateManager = {
  * @param {*} id - ID пользователя
  */
 function editTask(id) {
-    state.tasks.forEach((element) => {
+    stateManager.getTasks().forEach((element) => {
         if (element.id == id) {
             inputName.value = element.name;
         }
@@ -163,7 +168,7 @@ function changeTaskInTable() {
     if (inputName.value) {
         document.getElementById("table-task").style.display = "block";
         var id_task = document.getElementById("input_id__span").innerHTML;
-        setTask(state.tasks, inputName.value, id_task);
+        setTask(stateManager.getTasks(), inputName.value, id_task);
         renderTask(state.tasks);
         pushDataToStorage();
 
@@ -292,11 +297,6 @@ function deleteTask() {
  * Главная функция
  */
 function init() {
-    var btnSave = document.getElementById("btnSave");
-    var buttonChange = document.getElementById("btnChange");
-    var btnAdd = document.getElementById("btnAdd");
-    var btnDel = document.getElementById("btnDel");
-
     btnSave.style.display = "none";
     buttonChange.style.display = "none";
     btnDel.style.display = "none";
@@ -323,8 +323,8 @@ function init() {
         switchModal(false);
     };
 
-    buttonChange.onclick = changeTaskInTable.bind();
-    btnAdd.onclick = switchModal.bind();
+    buttonChange.onclick = changeTaskInTable;
+    btnAdd.onclick = switchModal;
     btnDel.onclick = deleteTask;
 
     var tasks = stateManager.getTasks();
