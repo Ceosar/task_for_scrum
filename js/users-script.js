@@ -11,11 +11,69 @@ var btnDel = document.getElementById("btnDelUser");
 
 var inputName = document.getElementsByClassName("input_data__input__user");
 
-var state = {
-    tasks: [],
-    scores: [],
-    users: [],
+var stateManager = {
+    privates: {
+        state: {
+            tasks: [],
+            scores: [],
+            users: [],
+        },
+    },
+    syncStorage: function () {
+        localStorage.setItem("state", JSON.stringify(this.privates.state));
+    },
+    getScores: function () {
+        return this.privates.state.scores;
+    },
+    getUsers: function () {
+        return this.privates.state.users;
+    },
+    addUser: function (value) {
+        if (value) {
+            // var userId = "user" + this.privates.state.users.length;
+            // var userName = value;
+            // this.setUser(userId, userName);
+            setUser(
+                this.privates.state.users,
+                "user" + this.privates.state.users.length,
+                value
+            );
+
+            for (var i = 0; i < this.privates.state.users.length; i++) {
+                setScore(
+                    this.privates.state.scores,
+                    "task" + (this.privates.state.tasks.length - 1),
+                    "user" + i
+                );
+            }
+            this.syncStorage();
+
+            // for (var i = 0; i < this.privates.state.tasks.length; i++) {
+            //     var taskId = "task" + i;
+            //     this.setScore(taskId, userId);
+            // }
+        }
+
+        renderUser();
+        inputName.value = "";
+
+        switchModal(false);
+    },
+    editUser: function (id) {
+        this.getUsers().forEach((element) => {
+            if (element.user_id == id) {
+                inputName.value = element.user_name;
+            }
+        });
+        changeSwitchModal(id, true);
+    },
 };
+
+// var state = {
+//     tasks: [],
+//     scores: [],
+//     users: [],
+// };
 
 /**
  * Функция отправляет данные в LocalStorage
@@ -93,12 +151,12 @@ var btnChangeUser = document.createElement("button");
 function renderUser(users) {
     var table = document.querySelector("#table-users tbody");
     table.innerHTML = "";
-    for (let i = 0; i < users.length; i++) {
+    for (let i = 0; i < stateManager.getUsers().length; i++) {
         var newRow = document.createElement("tr");
         var newName = document.createElement("td");
         var newFunction = document.createElement("td");
 
-        newFunction.innerHTML = `<button class="change-score-of-task" onclick = "editUser(\'${users[i].user_id}\')">Change</button>`;
+        newFunction.innerHTML = `<button class="change-score-of-task" onclick = "stateManager.editUser(\'${users[i].user_id}\')">Change</button>`;
 
         if (users[i].user_name) {
             newName.textContent = users[i].user_name;
@@ -174,36 +232,36 @@ var inputName = document.getElementsByClassName("input_data__input__user")[0];
 /**
  * Функция добавления пользователя
  */
-function addUser() {
-    if (inputName.value) {
-        setUser(state.users, "user" + state.users.length, inputName.value);
-        for (i = 0; i < state.tasks.length; i++) {
-            setScore(
-                state.scores,
-                "task" + i,
-                "user" + (state.users.length - 1)
-            );
-        }
-    }
+// function addUser() {
+//     if (inputName.value) {
+//         setUser(state.users, "user" + state.users.length, inputName.value);
+//         for (i = 0; i < state.tasks.length; i++) {
+//             setScore(
+//                 state.scores,
+//                 "task" + i,
+//                 "user" + (state.users.length - 1)
+//             );
+//         }
+//     }
 
-    renderUser(state.users);
-    inputName.value = "";
+//     renderUser(state.users);
+//     inputName.value = "";
 
-    switchModal(false);
-}
+//     switchModal(false);
+// }
 
 /**
  * Функция изменения имени пользователя (повторно)
  * @param {*} id - ID пользователя
  */
-function editUser(id) {
-    state.users.forEach((element) => {
-        if (element.user_id == id) {
-            inputName.value = element.user_name;
-        }
-    });
-    changeSwitchModal(id, true);
-}
+// function editUser(id) {
+//     state.users.forEach((element) => {
+//         if (element.user_id == id) {
+//             inputName.value = element.user_name;
+//         }
+//     });
+//     changeSwitchModal(id, true);
+// }
 
 /**
  * Изменение пользователя
@@ -238,15 +296,35 @@ function deleteUser() {
  */
 function init() {
     btnAdd.onclick = switchModal;
-    btnSave.onclick = addUser;
+    btnSave.onclick = stateManager.addUser();
     buttonChange.onclick = changeUserInTable;
     btnDel.onclick = deleteUser;
 
     var stateFromStorage = localStorage.getItem("state");
     if (stateFromStorage) {
-        state = Object.assign(state, JSON.parse(stateFromStorage));
+        state = JSON.parse(stateFromStorage);
+        stateManager.privates.state = state;
+    } else {
+        stateManager.privates.state = {
+            tasks: [],
+            scores: [],
+            users: [],
+        };
     }
-    var users = state.users;
+
+    btnSave.onclick = function handleAdd() {
+        stateManager.addUser(inputName.value);
+
+        inputName.value = "";
+        renderUser(stateManager.getUsers());
+        switchModal(false);
+    };
+
+    buttonChange.onclick = changeUserInTable;
+    btnAdd.onclick = switchModal;
+    btnDel.onclick = deleteUser;
+
+    var users = stateManager.getUsers();
 
     renderUser(users);
 }

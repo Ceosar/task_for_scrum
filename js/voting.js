@@ -3,11 +3,69 @@ document.getElementById('btnChange').style.display = "none";
 
 var buttonChange = document.getElementById('btnChange');
 
-var state = {
-    tasks: [],
-    scores: [],
-    users: []
-}
+var stateManager = {
+    privates: {
+        state: {
+            tasks: [],
+            scores: [],
+            users: [],
+        },
+    },
+    syncStorage: function () {
+        localStorage.setItem("state", JSON.stringify(this.privates.state));
+    },
+    getScores: function () {
+        return this.privates.state.scores;
+    },
+    getUsers: function () {
+        return this.privates.state.users;
+    },
+    addUser: function (value) {
+        if (value) {
+            // var userId = "user" + this.privates.state.users.length;
+            // var userName = value;
+            // this.setUser(userId, userName);
+            setUser(
+                this.privates.state.users,
+                "user" + this.privates.state.users.length,
+                value
+            );
+
+            for (var i = 0; i < this.privates.state.users.length; i++) {
+                setScore(
+                    this.privates.state.scores,
+                    "task" + (this.privates.state.tasks.length - 1),
+                    "user" + i
+                );
+            }
+            this.syncStorage();
+
+            // for (var i = 0; i < this.privates.state.tasks.length; i++) {
+            //     var taskId = "task" + i;
+            //     this.setScore(taskId, userId);
+            // }
+        }
+
+        renderUser();
+        inputName.value = "";
+
+        switchModal(false);
+    },
+    editUser: function (id) {
+        this.getUsers().forEach((element) => {
+            if (element.user_id == id) {
+                inputName.value = element.user_name;
+            }
+        });
+        changeSwitchModal(id, true);
+    },
+};
+
+// var state = {
+//     tasks: [],
+//     scores: [],
+//     users: []
+// }
 
 /**
  * Функция отправляет данные в LocalStorage

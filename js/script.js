@@ -45,30 +45,39 @@ var stateManager = {
             this.syncStorage();
         }
     },
-    changeTask: function (id) {
-        var tasks = this.privates.state.tasks;
-        for (var i = 0; i < tasks.length; i++) {
-            if (tasks[i].id == id) {
-                tasks[i].name = name;
-                break;
+    // changeTask: function (id) {
+    //     var tasks = this.privates.state.tasks;
+    //     for (var i = 0; i < tasks.length; i++) {
+    //         if (tasks[i].id == id) {
+    //             debugger
+    //             tasks[i].name = id;
+    //             break;
+    //         }
+    //     }
+    //     this.syncStorage();
+    // },
+    editTask: function(id) {
+        this.getTasks().forEach((element) => {
+            if (element.id == id) {
+                inputName.value = element.name;
             }
-        }
-        this.syncStorage();
-    },
+        });
+        changeSwitchModal(id, true);
+    }
 };
 
 /**
  * Функция изменения задачи (повторно)
  * @param {*} id - ID пользователя
  */
-function editTask(id) {
-    stateManager.getTasks().forEach((element) => {
-        if (element.id == id) {
-            inputName.value = element.name;
-        }
-    });
-    changeSwitchModal(id, true);
-}
+// function editTask(id) {
+//     stateManager.getTasks().forEach((element) => {
+//         if (element.id == id) {
+//             inputName.value = element.name;
+//         }
+//     });
+//     changeSwitchModal(id, true);
+// }
 
 // var state = {
 //     tasks: [],
@@ -191,7 +200,7 @@ function renderTask(tasks) {
         var newName = document.createElement("td");
         var newFunction = document.createElement("td");
 
-        newFunction.innerHTML = `<button class="change-score-of-task" onclick = "editTask(\'${tasks[i].id}\')">Change</button>`;
+        newFunction.innerHTML = `<button class="change-score-of-task" onclick = "stateManager.editTask(\'${tasks[i].id}\')">Change</button>`;
 
         if (tasks[i].name) {
             newName.textContent = tasks[i].name;
