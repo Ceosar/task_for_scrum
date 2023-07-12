@@ -1,8 +1,3 @@
-// var btnSave = document.getElementById("btnSaveUser");
-// var buttonChange = document.getElementById("btnChangeUser");
-// var btnAdd = document.getElementById("btnAddUser");
-// var btnDel = document.getElementById("btnDelUser");
-
 var inputName = document.getElementsByClassName("input_data__input__user")[0];
 
 var elements = {
@@ -38,9 +33,6 @@ var stateManager = {
     },
     addUser: function (value) {
         if (value) {
-            // var userId = "user" + this.privates.state.users.length;
-            // var userName = value;
-            // this.setUser(userId, userName);
             setUser(
                 this.privates.state.users,
                 "user" + this.privates.state.users.length,
@@ -55,11 +47,6 @@ var stateManager = {
                 );
             }
             this.syncStorage();
-
-            // for (var i = 0; i < this.privates.state.tasks.length; i++) {
-            //     var taskId = "task" + i;
-            //     this.setScore(taskId, userId);
-            // }
         }
 
         renderUser();
@@ -77,12 +64,6 @@ var stateManager = {
     },
 };
 
-// var state = {
-//     tasks: [],
-//     scores: [],
-//     users: [],
-// };
-
 /**
  * Функция отправляет данные в LocalStorage
  */
@@ -99,17 +80,11 @@ function pushDataToStorage() {
 function switchModal(toggle, _btnSave, _btnAdd) {
     if (toggle) {
         inputName.value = "";
-        // document.getElementsByClassName("input_data__user")[0].style.display =
-        //     "block";
         getElement("inputDataUser").style.display = "block";
         getElement("tableElem").style.display = "none";
-        // document.getElementById("table-users").style.display = "none";
         getElement("btnSave").style.display = "block";
         getElement("btnAdd").style.display = "none";
     } else {
-        // document.getElementById("table-users").style.display = "block";
-        // document.getElementsByClassName("input_data__user")[0].style.display =
-        //     "none";
         getElement("tableElem").style.display = "block";
         getElement("inputDataUser").style.display = "none";
         getElement("btnSave").style.display = "none";
@@ -135,25 +110,16 @@ function changeSwitchModal(
     _btnSave
 ) {
     if (toggle) {
-        // document.getElementById("input_id__span__user").innerHTML = id;
-        // document.getElementById("input_id__span__user").style.display = "none";
         getElement("inputIdSpanUser").innerHTML = id;
         getElement("inputIdSpanUser").style.display = "none";
-        // document.getElementsByClassName("input_data__user")[0].style.display =
-        //     "block";
         getElement("inputDataUser").style.display = "block";
-        // document.getElementById("table-users").style.display = "none";
         getElement("tableElem").style.display = "none";
         getElement("buttonChange").style.display = "block";
         getElement("btnAdd").style.display = "none";
         getElement("btnDel").style.display = "block";
     } else {
-        // document.getElementById("input_id__span__user").innerHTML = "";
-        // document.getElementById("table-users").style.display = "block";
         getElement("inputIdSpanUser").innerHTML = "";
         getElement("inputIdSpanUser").style.display = "block";
-        // document.getElementsByClassName("input_data__user")[0].style.display =
-        //     "none";
         getElement("tableElem").style.display = "block";
         getElement("inputDataUser").style.display = "none";
         getElement("buttonChange").style.display = "none";
@@ -289,7 +255,6 @@ function setScore(scores, task_id, user_id, value, props) {
  */
 function changeUserInTable() {
     if (inputName.value) {
-        // document.getElementById("table-users").style.display = "block";
         getElement("tableElem").style.display = "block";
         var id_user = getElement("inputIdSpanUser").innerHTML;
         setUser(state.users, id_user, inputName.value);
@@ -305,7 +270,6 @@ function changeUserInTable() {
  */
 function deleteUser() {
     inputName.value = "";
-    // document.getElementById("table-users").style.display = "block";
     getElement("tableElem").style.display = "block";
     var id_user = getElement("inputIdSpanUser").innerHTML;
     setUser(state.users, id_user, inputName.value);
@@ -318,11 +282,6 @@ function deleteUser() {
  * Главная функция
  */
 function init() {
-    // btnAdd.onclick = switchModal;
-    // btnSave.onclick = stateManager.addUser(inputName.value);
-    // buttonChange.onclick = changeUserInTable;
-    // btnDel.onclick = deleteUser;
-
     getElement("inputDataUser").style.display = "none";
     getElement("btnSave").style.display = "none";
     getElement("buttonChange").style.display = "none";
@@ -355,8 +314,6 @@ function init() {
     getElement("btnAdd").onclick = switchModal;
     getElement("btnDel").onclick = deleteUser;
 
-    // var users = stateManager.getUsers();
-    // console.log(users)
     renderUser(stateManager.getUsers());
 }
 init();
