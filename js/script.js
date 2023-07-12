@@ -1,7 +1,16 @@
-var btnSave = document.getElementById("btnSave");
-var buttonChange = document.getElementById("btnChange");
-var btnAdd = document.getElementById("btnAdd");
-var btnDel = document.getElementById("btnDel");
+var elements = {
+    tableElem: document.getElementById("table-task"),
+    btnDel: document.getElementById("btnDel"),
+    buttonChange: document.getElementById("btnChange"),
+    btnSave: document.getElementById("btnSave"),
+    btnAdd: document.getElementById("btnAdd"),
+    inputIdSpan: document.getElementById("input_id__span"),
+    inputData: document.getElementsByClassName("input_data")[0],
+};
+
+function getElement(elementName) {
+    return elements[elementName];
+}
 
 // document.getElementsByClassName("input_data")[0].style.display = "none";
 // document.getElementsByClassName("select-user")[0].style.display = "none";
@@ -56,14 +65,14 @@ var stateManager = {
     //     }
     //     this.syncStorage();
     // },
-    editTask: function(id) {
+    editTask: function (id) {
         this.getTasks().forEach((element) => {
             if (element.id == id) {
                 inputName.value = element.name;
             }
         });
         changeSwitchModal(id, true);
-    }
+    },
 };
 
 /**
@@ -89,7 +98,7 @@ var stateManager = {
  * Функция отправляет данные в LocalStorage
  */
 function pushDataToStorage() {
-    localStorage.setItem("state", JSON.stringify(state));
+    localStorage.setItem("state", JSON.stringify(stateManager.privates.state));
 }
 
 var inputName = document.getElementsByClassName("input_data__input")[0];
@@ -175,8 +184,8 @@ function setScore(scores, task_id, user_id, value, props) {
  */
 function changeTaskInTable() {
     if (inputName.value) {
-        document.getElementById("table-task").style.display = "block";
-        var id_task = document.getElementById("input_id__span").innerHTML;
+        getElement("tableElem").style.display = "block";
+        var id_task = getElement("inputIdSpan").innerHTML;
         setTask(stateManager.getTasks(), inputName.value, id_task);
         renderTask(state.tasks);
         pushDataToStorage();
@@ -193,13 +202,14 @@ var btnChange = document.createElement("button");
  * @param {*} tasks - массив задач
  */
 function renderTask(tasks) {
+    console.log(tasks)
     var table = document.querySelector("#table-task tbody");
     table.innerHTML = "";
     for (let i = 0; i < tasks.length; i++) {
         var newRow = document.createElement("tr");
         var newName = document.createElement("td");
         var newFunction = document.createElement("td");
-
+        console.log(tasks[i].id);
         newFunction.innerHTML = `<button class="change-score-of-task" onclick = "stateManager.editTask(\'${tasks[i].id}\')">Change</button>`;
 
         if (tasks[i].name) {
@@ -226,16 +236,15 @@ function switchModal(toggle, _btnSave, _btnAdd) {
         );
         selectOption.selected = true;
         inputName.value = "";
-        document.getElementsByClassName("input_data")[0].style.display =
-            "block";
-        document.getElementById("table-task").style.display = "none";
-        btnSave.style.display = "block";
-        btnAdd.style.display = "none";
+        getElement("inputData").style.display = "block";
+        getElement("tableElem").style.display = "none";
+        getElement("btnSave").style.display = "block";
+        getElement("btnAdd").style.display = "none";
     } else {
-        document.getElementById("table-task").style.display = "block";
-        document.getElementsByClassName("input_data")[0].style.display = "none";
-        btnSave.style.display = "none";
-        btnAdd.style.display = "block";
+        getElement("tableElem").style.display = "block";
+        getElement("inputData").style.display = "none";
+        getElement("btnSave").style.display = "none";
+        getElement("btnAdd").style.display = "block";
     }
 }
 
@@ -269,22 +278,21 @@ function changeSwitchModal(
                 }
             }
         });
-        document.getElementById("input_id__span").innerHTML = id;
-        document.getElementById("input_id__span").style.display = "none";
-        document.getElementsByClassName("input_data")[0].style.display =
-            "block";
-        document.getElementById("table-task").style.display = "none";
-        buttonChange.style.display = "block";
-        btnAdd.style.display = "none";
-        btnDel.style.display = "block";
+        getElement("inputIdSpan").innerHTML = id;
+        getElement("inputIdSpan").style.display = "none";
+        getElement("inputData").style.display = "block";
+        getElement("tableElem").style.display = "none";
+        getElement("buttonChange").style.display = "block";
+        getElement("btnAdd").style.display = "none";
+        getElement("btnDel").style.display = "block";
     } else {
-        document.getElementById("input_id__span").innerHTML = "";
-        document.getElementById("table-task").style.display = "block";
-        document.getElementsByClassName("input_data")[0].style.display = "none";
-        buttonChange.style.display = "none";
-        btnSave.style.display = "none";
-        btnAdd.style.display = "block";
-        btnDel.style.display = "none";
+        getElement("inputIdSpan").innerHTML = "";
+        getElement("tableElem").style.display = "block";
+        getElement("inputData").style.display = "none";
+        getElement("buttonChange").style.display = "none";
+        getElement("btnSave").style.display = "none";
+        getElement("btnAdd").style.display = "block";
+        getElement("btnDel").style.display = "none";
     }
 }
 
@@ -293,8 +301,8 @@ function changeSwitchModal(
  */
 function deleteTask() {
     inputName.value = "";
-    document.getElementById("table-task").style.display = "block";
-    var id_task = document.getElementById("input_id__span").innerHTML;
+    getElement("tableElem").style.display = "block";
+    var id_task = getElement("inputIdSpan").innerHTML;
     setTask(state.tasks, inputName.value, id_task);
     renderTask(state.tasks, state.scores);
     pushDataToStorage();
@@ -306,9 +314,9 @@ function deleteTask() {
  * Главная функция
  */
 function init() {
-    btnSave.style.display = "none";
-    buttonChange.style.display = "none";
-    btnDel.style.display = "none";
+    getElement("btnSave").style.display = "none";
+    getElement("buttonChange").style.display = "none";
+    getElement("btnDel").style.display = "none";
 
     var stateFromStorage = localStorage.getItem("state");
     if (stateFromStorage) {
@@ -332,12 +340,12 @@ function init() {
         switchModal(false);
     };
 
-    buttonChange.onclick = changeTaskInTable;
-    btnAdd.onclick = switchModal;
-    btnDel.onclick = deleteTask;
+    getElement("buttonChange").onclick = changeTaskInTable;
+    getElement("btnAdd").onclick = switchModal;
+    getElement("btnDel").onclick = deleteTask;
 
     var tasks = stateManager.getTasks();
-
+    console.log(tasks)
     renderTask(tasks);
 }
 

@@ -9,7 +9,7 @@ var buttonChange = document.getElementById("btnChangeUser");
 var btnAdd = document.getElementById("btnAddUser");
 var btnDel = document.getElementById("btnDelUser");
 
-var inputName = document.getElementsByClassName("input_data__input__user");
+var inputName = document.getElementsByClassName("input_data__input__user")[0];
 
 var stateManager = {
     privates: {
@@ -79,7 +79,7 @@ var stateManager = {
  * Функция отправляет данные в LocalStorage
  */
 function pushDataToStorage() {
-    localStorage.setItem("state", JSON.stringify(state));
+    localStorage.setItem("state", JSON.stringify(stateManager.privates.state));
 }
 
 /**
@@ -148,10 +148,11 @@ var btnChangeUser = document.createElement("button");
  * Функция отрисовки таблицы пользователей
  * @param {*} users - массив пользователей
  */
-function renderUser(users) {
+function renderUser() {
+    users = stateManager.getUsers();
     var table = document.querySelector("#table-users tbody");
     table.innerHTML = "";
-    for (let i = 0; i < stateManager.getUsers().length; i++) {
+    for (let i = 0; i < users.length; i++) {
         var newRow = document.createElement("tr");
         var newName = document.createElement("td");
         var newFunction = document.createElement("td");
@@ -228,7 +229,7 @@ function setScore(scores, task_id, user_id, value, props) {
     }
 }
 
-var inputName = document.getElementsByClassName("input_data__input__user")[0];
+// var inputName = document.getElementsByClassName("input_data__input__user")[0];
 /**
  * Функция добавления пользователя
  */
@@ -271,7 +272,7 @@ function changeUserInTable() {
         document.getElementById("table-users").style.display = "block";
         var id_user = document.getElementById("input_id__span__user").innerHTML;
         setUser(state.users, id_user, inputName.value);
-        renderUser(state.users);
+        renderUser();
         changeSwitchModal(null, false);
     } else {
         alert("Введите имя пользователя!");
@@ -286,19 +287,19 @@ function deleteUser() {
     document.getElementById("table-users").style.display = "block";
     var id_user = document.getElementById("input_id__span__user").innerHTML;
     setUser(state.users, id_user, inputName.value);
-    renderUser(state.users);
+    renderUser();
 
     changeSwitchModal(null, false);
 }
 
 /**
  * Главная функция
- */
+*/
 function init() {
-    btnAdd.onclick = switchModal;
-    btnSave.onclick = stateManager.addUser();
-    buttonChange.onclick = changeUserInTable;
-    btnDel.onclick = deleteUser;
+    // btnAdd.onclick = switchModal;
+    // btnSave.onclick = stateManager.addUser(inputName.value);
+    // buttonChange.onclick = changeUserInTable;
+    // btnDel.onclick = deleteUser;
 
     var stateFromStorage = localStorage.getItem("state");
     if (stateFromStorage) {
@@ -311,7 +312,6 @@ function init() {
             users: [],
         };
     }
-
     btnSave.onclick = function handleAdd() {
         stateManager.addUser(inputName.value);
 
@@ -320,12 +320,16 @@ function init() {
         switchModal(false);
     };
 
-    buttonChange.onclick = changeUserInTable;
+    buttonChange.onclick = function() {
+        console.log(inputName.value)
+        changeUserInTable(inputName.value)
+    };
     btnAdd.onclick = switchModal;
     btnDel.onclick = deleteUser;
+    
+    // var users = stateManager.getUsers();
+    // console.log(users)
+    renderUser(stateManager.getUsers());
 
-    var users = stateManager.getUsers();
-
-    renderUser(users);
 }
 init();
