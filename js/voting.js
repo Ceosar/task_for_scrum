@@ -1,7 +1,3 @@
-// document.getElementsByClassName('input_data')[0].style.display = "none";
-// document.getElementById('btnChange').style.display = "none";
-// var buttonChange = document.getElementById('btnChange');
-
 var elements = {
     tableElem: document.getElementById("table-task"),
     btnDel: document.getElementById("btnDel"),
@@ -12,7 +8,6 @@ var elements = {
     inputData: document.getElementsByClassName("input_data")[0],
     userSelect: document.getElementById("user_select"),
     nameOfTaskSpan: document.getElementById("name_of_task__span"),
-
 };
 
 function getElement(elementName) {
@@ -150,13 +145,13 @@ function changeScoreInTable() {
     changeSwitchModal(null, null, false);
 }
 
-var avgArray = [];
 var btnChange = document.createElement("button");
 /**
  * Функция отрисовки таблицы
  * @param {*} tasks - массив tasks
  * @param {*} scores - массив scores
- */
+*/
+var avgArray = [];
 function renderTask(tasks, scores) {
     var table = document.querySelector("#table-task tbody");
     table.innerHTML = "";
@@ -167,7 +162,7 @@ function renderTask(tasks, scores) {
         var newFunction = document.createElement("td");
 
         newFunction.innerHTML = `<button class = "change-score-of-task" onclick = "editScore(\'${scores[i].task_id}\', \`${userNow}\`)">Проголосовать</button>`;
-
+        
         if (scores[i].user_id == userNow) {
             //получаю название задачи по id
             tasks.forEach((element) => {
@@ -175,7 +170,7 @@ function renderTask(tasks, scores) {
                     newName.textContent = element.name;
                 }
             });
-
+            
             //нахожу средние значение каждой задач
             avgArray = [];
             scores.filter((elem) => {

@@ -12,14 +12,6 @@ function getElement(elementName) {
     return elements[elementName];
 }
 
-// document.getElementsByClassName("input_data")[0].style.display = "none";
-// document.getElementsByClassName("select-user")[0].style.display = "none";
-// document.getElementsByClassName("scoreUsers")[0].style.display = "none";
-
-// document.getElementById("btnChange").style.display = "none";
-// document.getElementById("btnDel").style.display = "none";
-// document.getElementById("btnAdd").style.display = "block";
-
 var stateManager = {
     privates: {
         state: {
@@ -329,8 +321,6 @@ function init() {
             users: [],
         };
     }
-
-    // stateManager.changeTask();
 
     btnSave.onclick = function handleAdd() {
         stateManager.addTask(inputName.value);
