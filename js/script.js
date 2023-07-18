@@ -194,15 +194,13 @@ var btnChange = document.createElement("button");
  * @param {*} tasks - массив задач
  */
 function renderTask(tasks) {
-    console.log(tasks)
     var table = document.querySelector("#table-task tbody");
     table.innerHTML = "";
     for (let i = 0; i < tasks.length; i++) {
         var newRow = document.createElement("tr");
         var newName = document.createElement("td");
         var newFunction = document.createElement("td");
-        console.log(tasks[i].id);
-        newFunction.innerHTML = `<button class="change-score-of-task" onclick = "stateManager.editTask(\'${tasks[i].id}\')">Change</button>`;
+        newFunction.innerHTML = `<button class="change-score-of-task" onclick = "stateManager.editTask(\'${tasks[i].id}\')">Изменить</button>`;
 
         if (tasks[i].name) {
             newName.textContent = tasks[i].name;
@@ -300,6 +298,23 @@ function deleteTask() {
     pushDataToStorage();
 
     changeSwitchModal(null, false);
+    checkTaskState();
+}
+
+function checkTaskState() {
+    var taskState = JSON.parse(localStorage.getItem("state"));
+    console.log(taskState.tasks);
+    for (var i = taskState.tasks.length - 1; i >= 0; i--) {
+        if (taskState.tasks[i].name === "") {
+            taskState.tasks.splice(i, 1);
+        }
+    }
+
+    console.log(taskState);
+
+    if(taskState){
+        localStorage.setItem("state", JSON.stringify(taskState));
+    }
 }
 
 /**
@@ -335,7 +350,6 @@ function init() {
     getElement("btnDel").onclick = deleteTask;
 
     var tasks = stateManager.getTasks();
-    console.log(tasks)
     renderTask(tasks);
 }
 

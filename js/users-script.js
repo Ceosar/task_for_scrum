@@ -62,6 +62,22 @@ var stateManager = {
         });
         changeSwitchModal(id, true);
     },
+    removeUserScores: function (user_id) {
+        var scores = this.privates.state.scores;
+        var removedIndexes = [];
+
+        for (var i = 0; i < scores.length; i++) {
+            if (scores[i].user_id === user_id) {
+                removedIndexes.push(i);
+            }
+        }
+
+        for (var j = removedIndexes.length - 1; j >= 0; j--) {
+            scores.splice(removedIndexes[j], 1);
+        }
+
+        this.syncStorage();
+    },
 };
 
 /**
@@ -143,7 +159,7 @@ function renderUser() {
         var newName = document.createElement("td");
         var newFunction = document.createElement("td");
 
-        newFunction.innerHTML = `<button class="change-score-of-task" onclick = "stateManager.editUser(\'${users[i].user_id}\')">Change</button>`;
+        newFunction.innerHTML = `<button class="change-score-of-task" onclick = "stateManager.editUser(\'${users[i].user_id}\')">Изменить</button>`;
 
         if (users[i].user_name) {
             newName.textContent = users[i].user_name;
@@ -215,6 +231,21 @@ function setScore(scores, task_id, user_id, value, props) {
     }
 }
 
+function removeUserScores(user_id) {
+    stateManager.removeUserScores(user_id);
+    renderUser();
+    // renderTask(stateManager.getTasks(), stateManager.getScores());
+}
+
+function removeUser() {
+    var id_user = getElement("inputIdSpanUser").innerHTML;
+    var user_name = inputName.value;
+    setUser(stateManager.getUsers(), id_user, user_name);
+    removeUserScores(id_user);
+
+    changeSwitchModal(null, false);
+}
+
 // var inputName = document.getElementsByClassName("input_data__input__user")[0];
 /**
  * Функция добавления пользователя
@@ -274,8 +305,25 @@ function deleteUser() {
     var id_user = getElement("inputIdSpanUser").innerHTML;
     setUser(state.users, id_user, inputName.value);
     renderUser();
-
+    removeUserScores(id_user);
     changeSwitchModal(null, false);
+    checkUserState();
+}
+
+function checkUserState() {
+    var userState = JSON.parse(localStorage.getItem("state"));
+    console.log(userState.users);
+    for (var i = userState.users.length - 1; i >= 0; i--) {
+        if (userState.users[i].user_name === "") {
+            userState.users.splice(i, 1);
+        }
+    }
+
+    console.log(userState);
+
+    if(userState){
+        localStorage.setItem("state", JSON.stringify(userState));
+    }
 }
 
 /**
@@ -287,6 +335,7 @@ function init() {
     getElement("buttonChange").style.display = "none";
     getElement("btnDel").style.display = "none";
     getElement("btnAdd").style.display = "block";
+
 
     var stateFromStorage = localStorage.getItem("state");
     if (stateFromStorage) {

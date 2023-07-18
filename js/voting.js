@@ -31,6 +31,9 @@ var stateManager = {
     getUsers: function () {
         return this.privates.state.users;
     },
+    getTasks: function () {
+        return this.privates.state.tasks;
+    },
     addUser: function (value) {
         if (value) {
             // var userId = "user" + this.privates.state.users.length;
@@ -45,7 +48,7 @@ var stateManager = {
             for (var i = 0; i < this.privates.state.users.length; i++) {
                 setScore(
                     this.privates.state.scores,
-                    "task" + (this.privates.state.tasks.length - 1),
+                    "task" + this.privates.state.tasks.length,
                     "user" + i
                 );
             }
@@ -138,7 +141,12 @@ var inputValue = document.getElementById("inputValue");
 function changeScoreInTable() {
     getElement("tableElem").style.display = "block";
     var id_task = getElement("inputIdSpan").innerHTML;
-    setScore(state.scores, id_task, userNow, Number(inputValue.value));
+    setScore(
+        stateManager.getScores(),
+        id_task,
+        userNow,
+        Number(inputValue.value)
+    );
     renderTask(state.tasks, state.scores);
     pushDataToStorage();
 
@@ -150,19 +158,21 @@ var btnChange = document.createElement("button");
  * Функция отрисовки таблицы
  * @param {*} tasks - массив tasks
  * @param {*} scores - массив scores
-*/
-var avgArray = [];
+ */
 function renderTask(tasks, scores) {
+    redirect(state.tasks, state.users);
     var table = document.querySelector("#table-task tbody");
     table.innerHTML = "";
-    for (let i = 0; i < scores.length; i++) {
+    var avgArray = [];
+    for (let i = 0; i < stateManager.getScores().length; i++) {
         var newRow = document.createElement("tr");
         var newName = document.createElement("td");
         var newScore = document.createElement("td");
         var newFunction = document.createElement("td");
 
         newFunction.innerHTML = `<button class = "change-score-of-task" onclick = "editScore(\'${scores[i].task_id}\', \`${userNow}\`)">Проголосовать</button>`;
-        
+
+        avgArray = [];
         if (scores[i].user_id == userNow) {
             //получаю название задачи по id
             tasks.forEach((element) => {
@@ -170,10 +180,9 @@ function renderTask(tasks, scores) {
                     newName.textContent = element.name;
                 }
             });
-            
+
             //нахожу средние значение каждой задач
-            avgArray = [];
-            scores.filter((elem) => {
+            scores.forEach((elem) => {
                 if (elem.task_id == scores[i].task_id) {
                     avgArray.push(elem.value);
                 }
@@ -191,6 +200,10 @@ function renderTask(tasks, scores) {
             }
 
             if (newName.textContent == "") {
+                // if(!newName.textContent){
+                //     alert("Создайте задачи!")
+                //     window.location.href = "http://127.0.0.1:5500/html/index.html";
+                // }
                 continue;
             }
             newRow.appendChild(newName);
@@ -269,6 +282,14 @@ function switchUsers() {
     renderTask(state.tasks, state.scores, userNow);
 }
 
+function redirect(tasks, users) {
+    if (tasks == "") {
+        window.location.replace("http://127.0.0.1:5500/html/index.html");
+    } else if (users == "") {
+        window.location.href = "http://127.0.0.1:5500/html/users.html";
+    }
+}
+
 var toggleInit;
 /**
  * Главная функция
@@ -281,19 +302,38 @@ function init() {
     var stateFromStorage = localStorage.getItem("state");
     if (stateFromStorage) {
         state = JSON.parse(stateFromStorage);
+        stateManager.privates.state = state;
+    } else {
+        stateManager.privates.state = {
+            tasks: [],
+            scores: [],
+            users: [],
+        };
     }
-    var tasks = state.tasks;
-    var scores = state.scores;
-    var users = state.users;
 
-    if (!scores.user_id || scores.user_id == "") {
-        var toggleInit = scores.length;
+    if (
+        !stateManager.getScores().user_id ||
+        stateManager.getScores().user_id == ""
+    ) {
+        var toggleInit = stateManager.getScores().length;
         if (toggleInit == 0) {
-            for (j = 0; j < tasks.length; j++) {
-                for (i = 0; i < users.length; i++) {
-                    for (l = 0; l < Math.pow(tasks.length, users.length); l++) {
+            for (j = 0; j < stateManager.getTasks().length; j++) {
+                for (i = 0; i < stateManager.getUsers().length; i++) {
+                    for (
+                        l = 0;
+                        l <
+                        Math.pow(
+                            stateManager.getTasks().length,
+                            stateManager.getUsers().length
+                        );
+                        l++
+                    ) {
                         try {
-                            setScore(scores, `task${j}`, `user${i}`);
+                            setScore(
+                                stateManager.getScores(),
+                                `task${j}`,
+                                `user${i}`
+                            );
                         } catch (err) {
                             console.log(scores[l]);
                         }
@@ -303,8 +343,12 @@ function init() {
         }
     }
 
-    renderUsersSelect();
-    renderTask(tasks, scores);
+    try {
+        renderUsersSelect();
+        renderTask(stateManager.getTasks(), stateManager.getScores());
+    } catch (error) {
+        window.location.replace("http://127.0.0.1:5500/html/index.html");
+    }
 
     switchUsers();
 }
